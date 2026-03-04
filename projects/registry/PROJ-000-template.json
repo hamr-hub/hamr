@@ -1,0 +1,32 @@
+{
+  "id": "PROJ-000",
+  "name": "项目模板",
+  "status": "template",
+  "priority": "medium",
+  "created_date": "YYYY-MM-DD",
+  "updated_date": "YYYY-MM-DD",
+  "owner": "待定",
+  "tags": ["示例标签1", "示例标签2"],
+  "documents": {
+    "project": "projects/active/项目名称-YYYYMMDD.md",
+    "proposal": "planning/proposals/提案名称-YYYYMMDD.md",
+    "roadmap": "planning/roadmaps/路线图名称-YYYYMMDD.md",
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "里程碑1",
+      "date": "YYYY-MM-DD",
+      "status": "pending"
+    },
+    {
+      "name": "里程碑2",
+      "date": "YYYY-MM-DD",
+      "status": "pending"
+    }
+  ],
+  "description": "项目简介，用1-2句话描述项目的核心目标和价值"
+}

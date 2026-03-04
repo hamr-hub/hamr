@@ -8,7 +8,8 @@
 hamr/
 ├── projects/           # 项目文档
 │   ├── active/        # 进行中的项目
-│   └── archived/      # 已完成/已归档的项目
+│   ├── archived/      # 已完成/已归档的项目
+│   └── registry/      # 项目注册表（JSON索引文件）
 ├── planning/          # 规划文档
 │   ├── roadmaps/      # 产品路线图
 │   ├── proposals/     # 项目提案
@@ -25,8 +26,21 @@ hamr/
 
 ### 创建新项目
 ```bash
-# 从模板创建新项目文档
-cp templates/project-template.md projects/active/项目名称.md
+# 1. 从模板创建新项目文档
+cp templates/project-template.md projects/active/项目名称-YYYYMMDD.md
+
+# 2. 创建项目注册表
+cp projects/registry/PROJ-000-template.json projects/registry/PROJ-NNN-项目简称.json
+# 编辑JSON文件，填写项目信息和文档路径
+```
+
+### 查找项目
+```bash
+# 查看所有活跃项目
+cat projects/registry/PROJ-*.json | jq 'select(.status == "active")'
+
+# 查找特定项目的所有文档
+cat projects/registry/PROJ-001-域名规划.json | jq '.documents'
 ```
 
 ### 开始新迭代

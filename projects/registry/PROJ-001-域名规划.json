@@ -1,0 +1,72 @@
+{
+  "id": "PROJ-001",
+  "name": "域名规划与基础设施建设",
+  "status": "active",
+  "priority": "high",
+  "created_date": "2026-03-04",
+  "updated_date": "2026-03-04",
+  "owner": "待定",
+  "tags": ["基础设施", "域名规划", "品牌建设", "双域名体系", "hamr.store", "hamr.top"],
+  "documents": {
+    "project": "projects/active/域名规划与基础设施-20260304.md",
+    "proposal": "planning/proposals/域名分配详细清单-20260304.md",
+    "roadmap": "planning/roadmaps/域名基础设施-roadmap-2026Q2.md",
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "域名规划方案完成",
+      "date": "2026-03-04",
+      "status": "completed"
+    },
+    {
+      "name": "Phase 1 子域名注册",
+      "date": "2026-03-15",
+      "status": "in_progress"
+    },
+    {
+      "name": "官网上线",
+      "date": "2026-04-15",
+      "status": "pending"
+    },
+    {
+      "name": "文档站上线",
+      "date": "2026-04-15",
+      "status": "pending"
+    },
+    {
+      "name": "核心应用上线",
+      "date": "2026-05-30",
+      "status": "pending"
+    },
+    {
+      "name": "Phase 1 完成",
+      "date": "2026-06-30",
+      "status": "pending"
+    }
+  ],
+  "description": "建立HamR双域名体系（hamr.store家庭服务 + hamr.top开发者生态），规划55个子域名，分3个阶段实施，支撑百万家庭用户和千名开发者",
+  "metadata": {
+    "phase": "Phase 1 - MVP",
+    "budget": "¥12,000 (Q2)",
+    "team_size": 3,
+    "estimated_completion": "2026-06-30",
+    "domain_count": {
+      "total": 55,
+      "hamr_store": 30,
+      "hamr_top": 25,
+      "phase_1": 10,
+      "phase_2": 20,
+      "phase_3": 25
+    },
+    "key_metrics": {
+      "availability_target": "99.9%",
+      "response_time_target": "<2s",
+      "monthly_pv_target": "100万+ (2027-Q2)",
+      "api_calls_target": "10万次/天 (2027-Q2)"
+    }
+  }
+}
