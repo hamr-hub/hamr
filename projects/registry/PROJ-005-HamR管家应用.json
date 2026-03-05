@@ -1,0 +1,47 @@
+{
+  "id": "PROJ-005",
+  "name": "HamR 管家应用 (app.hamr.store)",
+  "status": "pending",
+  "priority": "high",
+  "created_date": "2026-03-05",
+  "updated_date": "2026-03-05",
+  "owner": "待定",
+  "tags": ["核心应用", "家庭管理", "五维管理", "Phase1", "React", "NestJS", "PostgreSQL"],
+  "documents": {
+    "project": "projects/active/HamR管家应用-20260305.md",
+    "proposal": null,
+    "roadmap": null,
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "需求确认",
+      "date": "2026-03-20",
+      "status": "pending"
+    },
+    {
+      "name": "数据模型设计",
+      "date": "2026-04-05",
+      "status": "pending"
+    },
+    {
+      "name": "后端开发",
+      "date": "2026-04-30",
+      "status": "pending"
+    },
+    {
+      "name": "前端开发",
+      "date": "2026-05-20",
+      "status": "pending"
+    },
+    {
+      "name": "测试上线",
+      "date": "2026-05-30",
+      "status": "pending"
+    }
+  ],
+  "description": "HamR 核心数据管理应用。职责：五维数据采集与存储（人-成员档案/关系图谱/重要日期；时-家庭日历/日程/时间统计；事-待办清单/大事记/决策记录；物-家庭资产/物品分类/消耗品管理；境-环境监测/场景管理/空间管理）、家庭数据看板（概览/可视化/智能提醒）、数据主权保障（导入导出/备份恢复/端到端加密）。为JiaBu决策系统提供结构化数据基础。采用 React+NestJS+PostgreSQL+MongoDB 混合架构。"
+}

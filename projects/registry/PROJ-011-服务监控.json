@@ -1,0 +1,42 @@
+{
+  "id": "PROJ-011",
+  "name": "服务监控 (status.hamr.top)",
+  "status": "pending",
+  "priority": "medium",
+  "created_date": "2026-03-05",
+  "updated_date": "2026-03-05",
+  "owner": "待定",
+  "tags": ["监控", "运维", "透明", "Phase1", "UptimeRobot"],
+  "documents": {
+    "project": "projects/active/服务监控-20260305.md",
+    "proposal": null,
+    "roadmap": null,
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "监控方案设计",
+      "date": "2026-04-05",
+      "status": "pending"
+    },
+    {
+      "name": "页面开发",
+      "date": "2026-04-20",
+      "status": "pending"
+    },
+    {
+      "name": "监控集成",
+      "date": "2026-04-28",
+      "status": "pending"
+    },
+    {
+      "name": "测试上线",
+      "date": "2026-05-05",
+      "status": "pending"
+    }
+  ],
+  "description": "HamR 面向用户的状态透明页面。职责：实时状态展示（监控9个核心服务，5级状态指示：正常/性能下降/部分中断/完全中断/维护中）、历史可用性（7/30/90天可用性统计+响应时间趋势+事件历史）、故障通报（故障/维护/通知三类公告，完整的调查→识别→修复→解决→RCA事件管理流程）、状态订阅（邮件/RSS通知，可选择订阅全部或特定服务）、SLA展示（月度SLA达成情况，目标99.9%）。区别于PROJ-013内部运维监控。"
+}

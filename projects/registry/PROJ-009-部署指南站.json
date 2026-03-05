@@ -1,0 +1,42 @@
+{
+  "id": "PROJ-009",
+  "name": "部署指南站 (deploy.hamr.top)",
+  "status": "pending",
+  "priority": "medium",
+  "created_date": "2026-03-05",
+  "updated_date": "2026-03-05",
+  "owner": "待定",
+  "tags": ["文档", "私有部署", "Docker", "K8s", "Phase1", "运维"],
+  "documents": {
+    "project": "projects/active/部署指南站-20260305.md",
+    "proposal": null,
+    "roadmap": null,
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "Docker 方案",
+      "date": "2026-04-15",
+      "status": "pending"
+    },
+    {
+      "name": "K8s 方案",
+      "date": "2026-04-30",
+      "status": "pending"
+    },
+    {
+      "name": "故障排查",
+      "date": "2026-05-05",
+      "status": "pending"
+    },
+    {
+      "name": "测试上线",
+      "date": "2026-05-10",
+      "status": "pending"
+    }
+  ],
+  "description": "HamR 私有部署支持中心。职责：部署方案（Docker Compose快速部署+Kubernetes生产部署+Helm Chart）、部署脚本维护（一键安装脚本+交互式配置引导+自动环境检测）、运维指导（数据备份恢复+版本升级回滚+故障排查）、配置文档（完整环境变量清单：DB/Redis/JWT/SMTP/Storage/App配置）、域名SSL配置（Let's Encrypt自动申请/自签名证书/商业证书）、辅助工具（backup/restore/upgrade/healthcheck脚本）。"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "PROJ-002",
+  "name": "官网建设 (hamr.store)",
+  "status": "pending",
+  "priority": "high",
+  "created_date": "2026-03-05",
+  "updated_date": "2026-03-05",
+  "owner": "待定",
+  "tags": ["前端", "官网", "品牌", "Phase1", "hamr.store", "静态站点"],
+  "documents": {
+    "project": "projects/active/官网建设-20260305.md",
+    "proposal": null,
+    "roadmap": null,
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "需求确认",
+      "date": "2026-03-10",
+      "status": "pending"
+    },
+    {
+      "name": "视觉设计",
+      "date": "2026-03-20",
+      "status": "pending"
+    },
+    {
+      "name": "开发完成",
+      "date": "2026-04-05",
+      "status": "pending"
+    },
+    {
+      "name": "测试上线",
+      "date": "2026-04-15",
+      "status": "pending"
+    }
+  ],
+  "description": "HamR 品牌展示门户。职责：品牌传达（温暖可信赖的产品理念）、产品介绍（HamR管家+JiaBu决策功能详解）、用户导流（引导注册/体验/部署）、信任建立（隐私承诺/开源理念/安全保障）。包含首页Landing Page、产品功能页、关于我们、隐私安全页。使用 Next.js SSG + Tailwind CSS + Vercel 托管，零运维成本。不负责用户登录（跳转account.hamr.store）和应用功能（跳转app.hamr.store）。"
+}

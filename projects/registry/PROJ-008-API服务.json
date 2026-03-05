@@ -1,0 +1,47 @@
+{
+  "id": "PROJ-008",
+  "name": "API 服务 (api.hamr.top)",
+  "status": "pending",
+  "priority": "high",
+  "created_date": "2026-03-05",
+  "updated_date": "2026-03-05",
+  "owner": "待定",
+  "tags": ["后端", "API", "网关", "Phase1", "Kong", "RESTful", "OAuth2"],
+  "documents": {
+    "project": "projects/active/API服务-20260305.md",
+    "proposal": null,
+    "roadmap": null,
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "需求确认",
+      "date": "2026-03-20",
+      "status": "pending"
+    },
+    {
+      "name": "网关开发",
+      "date": "2026-04-15",
+      "status": "pending"
+    },
+    {
+      "name": "鉴权限流",
+      "date": "2026-04-30",
+      "status": "pending"
+    },
+    {
+      "name": "监控日志",
+      "date": "2026-05-10",
+      "status": "pending"
+    },
+    {
+      "name": "测试上线",
+      "date": "2026-05-20",
+      "status": "pending"
+    }
+  ],
+  "description": "HamR 统一 API 入口。职责：统一入口管理（所有外部API请求经网关分发到后端微服务）、安全防护（API Key+OAuth2鉴权、滑动窗口限流、IP黑白名单、HMAC签名验证）、流量治理（路由/负载均衡/熔断降级）、可观测性（请求日志/P50-P99延迟监控/分布式调用链追踪/告警）、开发者支持（API Key管理/OpenAPI文档自动生成/SDK生成/Webhook回调）。完整路由表覆盖account/app/jiabu三大微服务。"
+}
