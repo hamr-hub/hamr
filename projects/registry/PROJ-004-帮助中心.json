@@ -1,7 +1,7 @@
 {
   "id": "PROJ-004",
   "name": "帮助中心 (help.hamr.store)",
-  "status": "pending",
+  "status": "active",
   "priority": "medium",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-05",
@@ -25,7 +25,7 @@
     {
       "name": "站点开发",
       "date": "2026-04-10",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "内容编写",
