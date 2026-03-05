@@ -1,0 +1,36 @@
+[submodule "repos/hamr-website"]
+	path = repos/hamr-website
+	url = https://github.com/hamr-hub/hamr-website.git
+[submodule "repos/hamr-account"]
+	path = repos/hamr-account
+	url = https://github.com/hamr-hub/hamr-account.git
+[submodule "repos/hamr-help"]
+	path = repos/hamr-help
+	url = https://github.com/hamr-hub/hamr-help.git
+[submodule "repos/hamr-app"]
+	path = repos/hamr-app
+	url = https://github.com/hamr-hub/hamr-app.git
+[submodule "repos/hamr-developer"]
+	path = repos/hamr-developer
+	url = https://github.com/hamr-hub/hamr-developer.git
+[submodule "repos/hamr-docs"]
+	path = repos/hamr-docs
+	url = https://github.com/hamr-hub/hamr-docs.git
+[submodule "repos/hamr-api"]
+	path = repos/hamr-api
+	url = https://github.com/hamr-hub/hamr-api.git
+[submodule "repos/hamr-deploy"]
+	path = repos/hamr-deploy
+	url = https://github.com/hamr-hub/hamr-deploy.git
+[submodule "repos/hamr-demo"]
+	path = repos/hamr-demo
+	url = https://github.com/hamr-hub/hamr-demo.git
+[submodule "repos/hamr-status"]
+	path = repos/hamr-status
+	url = https://github.com/hamr-hub/hamr-status.git
+[submodule "repos/hamr-jiabu"]
+	path = repos/hamr-jiabu
+	url = https://github.com/hamr-hub/hamr-jiabu.git
+[submodule "repos/hamr-infra"]
+	path = repos/hamr-infra
+	url = https://github.com/hamr-hub/hamr-infra.git
