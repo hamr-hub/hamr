@@ -4,9 +4,9 @@
   "status": "active",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-05",
-  "owner": "待定",
-  "tags": ["开发者生态", "开源", "Phase1", "Next.js", "静态站点"],
+  "updated_date": "2026-03-06",
+  "owner": "AI",
+  "tags": ["开发者生态", "开源", "Phase1", "Next.js", "自有服务器"],
   "documents": {
     "project": "projects/active/开发者门户-20260305.md",
     "proposal": null,
@@ -20,12 +20,12 @@
     {
       "name": "需求确认",
       "date": "2026-03-12",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "设计开发",
       "date": "2026-04-05",
-      "status": "completed"
+      "status": "pending"
     },
     {
       "name": "内容编写",
