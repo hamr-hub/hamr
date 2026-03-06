@@ -4,9 +4,9 @@
   "status": "active",
   "priority": "high",
   "created_date": "2026-03-04",
-  "updated_date": "2026-03-05",
+  "updated_date": "2026-03-06",
   "owner": "待定",
-  "tags": ["基础设施", "域名规划", "品牌建设", "双域名体系", "hamr.store", "hamr.top", "家庭智能助理", "隐私优先", "私有部署", "五维管理"],
+  "tags": ["基础设施", "域名规划", "品牌建设", "双域名体系", "hamr.store", "hamr.top", "家庭智能助理", "隐私优先", "私有部署", "五维管理", "阿里云DNS"],
   "documents": {
     "project": "projects/active/域名规划与基础设施-20260304.md",
     "proposal": "planning/proposals/域名分配详细清单-20260304.md",
@@ -50,7 +50,8 @@
   ],
   "description": "为HamR家庭智能助理平台建立双域名体系：hamr.store（温暖家庭服务）+ hamr.top（开放开发者生态）。规划55个子域名覆盖HamR管家和JiaBu决策两大系统，支持"人时事物境"五维管理，隐私优先，支持私有部署。分3个阶段实施，成就人类家庭的命运共同体。",
   "metadata": {
-    "phase": "Phase 1 - MVP",
+    "dns_provider": "阿里云 DNS",
+    "server_ip": "43.133.224.11",
     "budget": "¥12,000 (Q2)",
     "team_size": 3,
     "estimated_completion": "2026-06-30",
