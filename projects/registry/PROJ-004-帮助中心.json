@@ -4,9 +4,9 @@
   "status": "active",
   "priority": "medium",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-05",
-  "owner": "待定",
-  "tags": ["文档", "用户支持", "Phase1", "Docusaurus", "静态站点"],
+  "updated_date": "2026-03-06",
+  "owner": "AI",
+  "tags": ["文档", "用户支持", "Phase1", "Docusaurus", "自有服务器"],
   "documents": {
     "project": "projects/active/帮助中心-20260305.md",
     "proposal": null,
@@ -20,7 +20,7 @@
     {
       "name": "内容规划",
       "date": "2026-03-20",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "站点开发",
