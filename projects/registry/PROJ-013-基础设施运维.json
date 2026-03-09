@@ -28,6 +28,11 @@
       "status": "completed"
     },
     {
+      "name": "Nginx 反向代理配置",
+      "date": "2026-03-06",
+      "status": "completed"
+    },
+    {
       "name": "备份机制建立",
       "date": "2026-04-10",
       "status": "pending"
