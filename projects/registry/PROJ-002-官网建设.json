@@ -4,7 +4,7 @@
   "status": "completed",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-06",
+  "updated_date": "2026-03-09",
   "owner": "AI Assistant",
   "tags": ["前端", "官网", "品牌", "Phase1", "hamr.store", "静态站点"],
   "documents": {
@@ -34,7 +34,7 @@
     },
     {
       "name": "测试上线",
-      "date": "2026-03-06",
+      "date": "2026-03-09",
       "status": "completed"
     }
   ],
