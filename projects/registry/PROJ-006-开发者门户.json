@@ -1,10 +1,10 @@
 {
   "id": "PROJ-006",
   "name": "开发者门户 (hamr.top)",
-  "status": "active",
+  "status": "completed",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-06",
+  "updated_date": "2026-03-10",
   "owner": "AI",
   "tags": ["开发者生态", "开源", "Phase1", "Next.js", "自有服务器"],
   "documents": {
@@ -25,17 +25,17 @@
     {
       "name": "设计开发",
       "date": "2026-04-05",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "内容编写",
       "date": "2026-04-12",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "测试上线",
       "date": "2026-04-15",
-      "status": "pending"
+      "status": "completed"
     }
   ],
   "description": "HamR 技术品牌入口。职责：技术品牌展示（技术愿景/开源承诺/技术栈概览）、开发者吸引（Quick Start 3步上手/代码示例）、开源项目展示（HamR Core/Web/CLI/SDK/Deploy，按语言/类型/状态分类）、社区建设（贡献指南/Good First Issues/贡献者认可）、资源导航中枢（链接到docs/api/demo/deploy/status各站点）。使用 Next.js + Tailwind CSS + Vercel，零成本运营。"

@@ -4,7 +4,7 @@
   "status": "active",
   "priority": "high",
   "created_date": "2026-03-04",
-  "updated_date": "2026-03-06",
+  "updated_date": "2026-03-10",
   "owner": "待定",
   "tags": ["基础设施", "域名规划", "品牌建设", "双域名体系", "hamr.store", "hamr.top", "家庭智能助理", "隐私优先", "私有部署", "五维管理", "阿里云DNS"],
   "documents": {
@@ -30,7 +30,7 @@
     {
       "name": "官网上线",
       "date": "2026-04-15",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "文档站上线",
