@@ -1,11 +1,11 @@
 {
   "id": "PROJ-009",
   "name": "部署指南站 (deploy.hamr.top)",
-  "status": "pending",
+  "status": "in_progress",
   "priority": "medium",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-05",
-  "owner": "待定",
+  "updated_date": "2026-03-10",
+  "owner": "AI",
   "tags": ["文档", "私有部署", "Docker", "K8s", "Phase1", "运维"],
   "documents": {
     "project": "projects/active/部署指南站-20260305.md",
@@ -20,17 +20,17 @@
     {
       "name": "Docker 方案",
       "date": "2026-04-15",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "K8s 方案",
       "date": "2026-04-30",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "故障排查",
       "date": "2026-05-05",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "测试上线",

@@ -1,12 +1,12 @@
 {
   "id": "PROJ-012",
   "name": "JiaBu 决策系统 (jiabu.hamr.store)",
-  "status": "pending",
+  "status": "in_progress",
   "priority": "medium",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-05",
-  "owner": "待定",
-  "tags": ["AI决策", "智能助手", "Phase2", "Python", "FastAPI", "机器学习", "幸福感评估"],
+  "updated_date": "2026-03-10",
+  "owner": "AI",
+  "tags": ["AI决策", "智能助手", "Phase2", "Rust", "Axum", "幸福感评估", "React"],
   "documents": {
     "project": "projects/active/JiaBu决策系统-20260305.md",
     "proposal": null,
@@ -20,22 +20,22 @@
     {
       "name": "需求确认",
       "date": "2026-06-15",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "模型开发",
       "date": "2026-07-15",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "后端开发",
       "date": "2026-08-05",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "前端开发",
       "date": "2026-08-20",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "测试上线",
@@ -43,5 +43,5 @@
       "status": "pending"
     }
   ],
-  "description": "HamR 智能决策引擎。职责：数据分析（对HamR管家五维数据深度分析）、幸福感评估（五维幸福指数：人际互动频率+时间分配均衡度+任务完成率+资产管理完善度+环境舒适度，加权综合评分0-100分+趋势对比+预警机制）、智能建议（规则引擎：基于分析的提醒如'X天未全家活动'+个性化活动推荐+消耗品补货提醒）、决策辅助（场景模拟：多维度对比+风险量化+最佳/最差/中位情景分析+决策跟踪复盘）、幸福报告（周/月/年报：雷达图+趋势图+热力图）。MVP使用规则引擎+统计分析，Phase3引入机器学习。本地计算优先，保护隐私。"
+  "description": "HamR 智能决策引擎。职责：数据分析（对HamR管家五维数据深度分析）、幸福感评估（五维幸福指数：人际互动频率+时间分配均衡度+任务完成率+资产管理完善度+环境舒适度，加权综合评分0-100分+趋势对比+预警机制）、智能建议（规则引擎：基于分析的提醒）、决策辅助（多维度对比+利弊分析+AI推荐最优方案）。使用规则引擎+统计分析，本地计算保护隐私。"
 }

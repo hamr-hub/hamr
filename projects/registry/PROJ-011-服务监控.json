@@ -1,12 +1,12 @@
 {
   "id": "PROJ-011",
   "name": "服务监控 (status.hamr.top)",
-  "status": "pending",
+  "status": "in_progress",
   "priority": "medium",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-05",
-  "owner": "待定",
-  "tags": ["监控", "运维", "透明", "Phase1", "UptimeRobot"],
+  "updated_date": "2026-03-10",
+  "owner": "AI",
+  "tags": ["监控", "运维", "透明", "Phase1", "React"],
   "documents": {
     "project": "projects/active/服务监控-20260305.md",
     "proposal": null,
@@ -20,17 +20,17 @@
     {
       "name": "监控方案设计",
       "date": "2026-04-05",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "页面开发",
       "date": "2026-04-20",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "监控集成",
       "date": "2026-04-28",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "测试上线",

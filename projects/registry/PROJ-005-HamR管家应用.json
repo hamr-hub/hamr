@@ -35,7 +35,7 @@
     {
       "name": "测试上线",
       "date": "2026-05-30",
-      "status": "pending"
+      "status": "in_progress"
     }
   ],
   "description": "HamR 核心数据管理应用。实现五维管理：人（成员档案/角色/联系方式/生日）、时（家庭日历/事件分类/提醒）、事（待办清单/优先级/里程碑/状态追踪）、物（家庭资产/分类/位置/过期提醒）、境（生活空间/类型/描述）。包含 Dashboard 概览（各维度统计）。后端：Rust + Axum + SQLx + PostgreSQL。前端：React 19 + Tailwind CSS v4 + Zustand + date-fns。JWT 认证与 hamr-account 共享。"
