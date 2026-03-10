@@ -1,12 +1,12 @@
 {
   "id": "PROJ-003",
   "name": "账号中心与家庭管理 (account.hamr.store)",
-  "status": "pending",
+  "status": "in_progress",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-05",
-  "owner": "待定",
-  "tags": ["后端", "认证", "SSO", "家庭管理", "Phase1", "OAuth2", "JWT", "安全"],
+  "updated_date": "2026-03-10",
+  "owner": "AI",
+  "tags": ["后端", "认证", "SSO", "家庭管理", "Phase1", "JWT", "Rust", "Axum", "React", "安全"],
   "documents": {
     "project": "projects/active/账号中心-20260305.md",
     "proposal": null,
@@ -18,24 +18,24 @@
   },
   "milestones": [
     {
-      "name": "需求确认",
-      "date": "2026-03-15",
-      "status": "pending"
+      "name": "前端开发",
+      "date": "2026-05-05",
+      "status": "completed"
     },
     {
       "name": "数据库设计",
-      "date": "2026-03-25",
-      "status": "pending"
+      "date": "2026-03-10",
+      "status": "completed"
     },
     {
-      "name": "后端开发",
-      "date": "2026-04-20",
-      "status": "pending"
+      "name": "后端开发（认证API）",
+      "date": "2026-03-10",
+      "status": "completed"
     },
     {
-      "name": "前端开发",
-      "date": "2026-05-05",
-      "status": "pending"
+      "name": "前端开发（登录/注册/个人中心/家庭管理）",
+      "date": "2026-03-10",
+      "status": "completed"
     },
     {
       "name": "测试上线",
@@ -43,5 +43,5 @@
       "status": "pending"
     }
   ],
-  "description": "HamR 平台身份认证与授权中心。职责：用户身份管理（注册/登录/密码管理）、家庭组织管理（创建/邀请/角色权限：管理员/成员/观察者）、SSO 单点登录（OAuth2+JWT，覆盖*.hamr.store和*.hamr.top全域名）、会话管理（Token签发/刷新/撤销）、安全审计（2FA/登录历史/异常检测）。提供完整的RESTful API供其他服务调用。采用 bcrypt+AES-256 加密，PostgreSQL+Redis 存储，支持私有部署本地认证。"
+  "description": "HamR 平台身份认证与授权中心。后端：Rust + Axum + SQLx + PostgreSQL，实现注册/登录/Token刷新/登出/修改密码/家庭CRUD API，JWT认证。前端：React 19 + Tailwind CSS v4 + Zustand，包含登录页、注册页、个人信息页、家庭管理页。支持创建家庭、通过邀请码加入、查看成员列表。数据库迁移（sqlx-migrate）。"
 }
