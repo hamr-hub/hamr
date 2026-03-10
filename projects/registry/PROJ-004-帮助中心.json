@@ -1,7 +1,7 @@
 {
   "id": "PROJ-004",
   "name": "帮助中心 (help.hamr.store)",
-  "status": "active",
+  "status": "completed",
   "priority": "medium",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-10",
@@ -30,12 +30,12 @@
     {
       "name": "内容编写",
       "date": "2026-04-25",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "测试上线",
-      "date": "2026-04-30",
-      "status": "pending"
+      "date": "2026-03-10",
+      "status": "completed"
     }
   ],
   "description": "HamR 用户自助服务平台。职责：产品使用指引（新手入门/五维功能教程/进阶教程）、问题自助解决（账号/家庭管理/数据/私有部署FAQ+故障排查指南）、信息检索（Algolia全文搜索/分类浏览）、反馈收集（问题报告/功能建议表单）。面向终端用户，区别于技术文档站(docs.hamr.top)面向开发者。使用 Docusaurus + Algolia，零成本托管。"

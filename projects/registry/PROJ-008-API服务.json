@@ -1,11 +1,11 @@
 {
   "id": "PROJ-008",
   "name": "API 服务 (api.hamr.top)",
-  "status": "pending",
+  "status": "in_progress",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-05",
-  "owner": "待定",
+  "updated_date": "2026-03-10",
+  "owner": "AI",
   "tags": ["后端", "API", "网关", "Phase1", "Kong", "RESTful", "OAuth2"],
   "documents": {
     "project": "projects/active/API服务-20260305.md",
@@ -20,22 +20,22 @@
     {
       "name": "需求确认",
       "date": "2026-03-20",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "网关开发",
       "date": "2026-04-15",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "鉴权限流",
       "date": "2026-04-30",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "监控日志",
       "date": "2026-05-10",
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "name": "测试上线",

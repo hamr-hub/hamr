@@ -1,7 +1,7 @@
 {
   "id": "PROJ-007",
   "name": "技术文档站 (docs.hamr.top)",
-  "status": "active",
+  "status": "completed",
   "priority": "high",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-10",
@@ -25,17 +25,17 @@
     {
       "name": "API 文档编写",
       "date": "2026-04-05",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "部署文档编写",
       "date": "2026-04-12",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "测试上线",
-      "date": "2026-04-15",
-      "status": "pending"
+      "date": "2026-03-10",
+      "status": "completed"
     }
   ],
   "description": "HamR 技术知识中心。职责：API参考文档（认证API/核心五维API/决策API，含通用规范：分页/排序/过滤/错误码）、架构文档（系统架构图/五维数据模型ER图/安全架构/技术选型）、开发指南（JavaScript/Python/Go三语言SDK+快速上手+最佳实践+代码示例）、配置参考（环境变量/部署选项概览）、多版本文档管理。使用 VitePress + OpenAPI + Algolia。"

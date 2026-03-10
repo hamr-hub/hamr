@@ -34,18 +34,18 @@
     },
     {
       "name": "备份机制建立",
-      "date": "2026-04-10",
-      "status": "in_progress"
+      "date": "2026-03-10",
+      "status": "completed"
     },
     {
       "name": "应急预案制定",
-      "date": "2026-04-20",
-      "status": "in_progress"
+      "date": "2026-03-10",
+      "status": "completed"
     },
     {
       "name": "Phase 1 运维就绪",
       "date": "2026-06-30",
-      "status": "pending"
+      "status": "in_progress"
     }
   ],
   "description": "HamR 底层支撑系统。职责：DNS管理（阿里云DNS+全域名解析配置+DNSSEC+DNS劫持检测，工具：scripts/dns/update-dns.sh）、网络安全（阿里云CDN加速+WAF防护+DDoS防御）、证书管理（Let's Encrypt通配符证书自动续期+过期预警）、服务器运维（Ubuntu 22.04标准化+SSH密钥认证+fail2ban+最小权限，服务器IP:43.133.224.11）、内部监控告警（Prometheus指标采集+Grafana可视化+多级别告警升级+邮件/钉钉通知）、日志管理（ELK Stack：热7天/温30天/冷90天分层保留）、数据安全（PostgreSQL每日全量+WAL持续归档PITR+异地加密备份+每月恢复演练，RTO<1h/RPO<24h）、应急响应（7x24值班+故障/数据泄露/DDoS/域名劫持预案）。目标99.9%可用性。"
