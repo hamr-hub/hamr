@@ -1,11 +1,11 @@
 {
   "id": "PROJ-010",
   "name": "在线演示环境 (demo.hamr.top)",
-  "status": "pending",
+  "status": "in_progress",
   "priority": "medium",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-05",
-  "owner": "待定",
+  "updated_date": "2026-03-13",
+  "owner": "AI",
   "tags": ["演示", "体验", "Phase1", "限流", "数据重置"],
   "documents": {
     "project": "projects/active/在线演示环境-20260305.md",
@@ -20,7 +20,7 @@
     {
       "name": "环境搭建",
       "date": "2026-04-20",
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "name": "示例数据",
