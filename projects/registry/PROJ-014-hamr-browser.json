@@ -1,0 +1,52 @@
+{
+  "id": "PROJ-014",
+  "name": "hamr-browser",
+  "status": "active",
+  "priority": "high",
+  "created_date": "2026-03-17",
+  "updated_date": "2026-03-17",
+  "owner": "HamR Team",
+  "tags": ["浏览器自动化", "Playwright", "API服务", "Python", "FastAPI"],
+  "documents": {
+    "project": "projects/active/hamr-browser-20260317.md",
+    "proposal": "planning/proposals/hamr-browser-技术方案-20260317.md",
+    "roadmap": null,
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "技术方案设计",
+      "date": "2026-03-24",
+      "status": "completed"
+    },
+    {
+      "name": "MVP：浏览器引擎 + 基础流程执行",
+      "date": "2026-04-07",
+      "status": "in_progress"
+    },
+    {
+      "name": "API 服务封装",
+      "date": "2026-04-21",
+      "status": "in_progress"
+    },
+    {
+      "name": "流程配置化 + 参数化",
+      "date": "2026-05-05",
+      "status": "in_progress"
+    },
+    {
+      "name": "Web 管理界面",
+      "date": "2026-05-19",
+      "status": "pending"
+    },
+    {
+      "name": "上线部署",
+      "date": "2026-05-31",
+      "status": "pending"
+    }
+  ],
+  "description": "基于 Playwright 的浏览器自动化 API 服务。全局共享单浏览器实例，持久化 Cookie/Session，将复杂的登录+操作流程包装为 RESTful API，调用方传参即可获取数据，无需关心登录过程。"
+}
