@@ -1,7 +1,7 @@
 {
   "id": "PROJ-015",
   "name": "心情日历",
-  "status": "active",
+  "status": "completed",
   "priority": "medium",
   "created_date": "2026-03-18",
   "updated_date": "2026-03-18",
@@ -41,12 +41,12 @@
     {
       "name": "测试与优化",
       "date": "2026-04-12",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "name": "上线发布",
       "date": "2026-04-18",
-      "status": "pending"
+      "status": "completed"
     }
   ],
   "description": "使用 Vibe Coding 开发的「情绪日历」Web 应用，支持点击日期记录每日心情，日历上直观展示情绪标记，并提供心情趋势曲线图，帮助用户轻松管理每日情绪和压力。"
