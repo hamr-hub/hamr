@@ -25,17 +25,17 @@
     {
       "name": "MVP：浏览器引擎 + 基础流程执行",
       "date": "2026-04-07",
-      "status": "in_progress"
+      "status": "completed"
     },
     {
       "name": "API 服务封装",
       "date": "2026-04-21",
-      "status": "in_progress"
+      "status": "completed"
     },
     {
       "name": "流程配置化 + 参数化",
       "date": "2026-05-05",
-      "status": "in_progress"
+      "status": "completed"
     },
     {
       "name": "Web 管理界面",
