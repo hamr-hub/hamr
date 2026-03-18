@@ -1,0 +1,53 @@
+{
+  "id": "PROJ-015",
+  "name": "心情日历",
+  "status": "active",
+  "priority": "medium",
+  "created_date": "2026-03-18",
+  "updated_date": "2026-03-18",
+  "owner": "HamR 团队",
+  "tags": ["Web应用", "情绪管理", "VibeCoding", "前端", "React"],
+  "repository": "repos/hamr-mood-calender",
+  "documents": {
+    "project": "projects/active/心情日历-20260318.md",
+    "proposal": null,
+    "roadmap": null,
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "需求确认",
+      "date": "2026-03-18",
+      "status": "completed"
+    },
+    {
+      "name": "UI 设计方案",
+      "date": "2026-03-20",
+      "status": "completed"
+    },
+    {
+      "name": "核心功能开发（日历+心情选择）",
+      "date": "2026-03-28",
+      "status": "completed"
+    },
+    {
+      "name": "心情曲线图（数据可视化）",
+      "date": "2026-04-05",
+      "status": "completed"
+    },
+    {
+      "name": "测试与优化",
+      "date": "2026-04-12",
+      "status": "pending"
+    },
+    {
+      "name": "上线发布",
+      "date": "2026-04-18",
+      "status": "pending"
+    }
+  ],
+  "description": "使用 Vibe Coding 开发的「情绪日历」Web 应用，支持点击日期记录每日心情，日历上直观展示情绪标记，并提供心情趋势曲线图，帮助用户轻松管理每日情绪和压力。"
+}
