@@ -34,3 +34,9 @@
 [submodule "repos/hamr-infra"]
 	path = repos/hamr-infra
 	url = https://github.com/hamr-hub/hamr-infra.git
+[submodule "repos/hamr-browser"]
+	path = repos/hamr-browser
+	url = https://github.com/hamr-hub/hamr-browser.git
+[submodule "repos/hamr-mood-calender"]
+	path = repos/hamr-mood-calender
+	url = https://github.com/hamr-hub/hamr-mood-calender.git
