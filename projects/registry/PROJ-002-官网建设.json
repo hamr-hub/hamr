@@ -4,7 +4,7 @@
   "status": "completed",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-13",
+  "updated_date": "2026-03-18",
   "owner": "AI Assistant",
   "tags": ["前端", "官网", "品牌", "Phase1", "hamr.store", "静态站点"],
   "documents": {
@@ -38,5 +38,5 @@
       "status": "completed"
     }
   ],
-  "description": "HamR 品牌展示门户。职责：品牌传达（温暖可信赖的产品理念）、产品介绍（HamR管家+JiaBu决策功能详解）、用户导流（引导注册/体验/部署）、信任建立（隐私承诺/开源理念/安全保障）。包含首页Landing Page、产品功能页、关于我们、隐私安全页。使用 Vite + React + Tailwind CSS + Vercel 托管，零运维成本。已完成核心功能开发，包含完整的响应式设计、SEO优化、动画效果。"
+  "description": "HamR 品牌展示门户。职责：品牌传达（温暖可信赖的产品理念）、产品介绍（HamR管家+JiaBu决策功能详解）、用户导流（引导注册/体验/部署）、信任建立（隐私承诺/开源理念/安全保障）。包含首页Landing Page、产品功能页、关于我们、隐私安全页、服务条款页、404页面。使用 Vite + React + Tailwind CSS + Docker 部署，已完成SEO优化（sitemap/robots/JSON-LD）、Web Vitals监控、3D场景性能分级、页面过渡动画、移动端滑动手势支持。已部署至 hamr.store。"
 }
