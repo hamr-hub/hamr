@@ -1,15 +1,15 @@
 {
   "id": "PROJ-005",
-  "name": "HamR 管家应用 (app.hamr.store)",
+  "name": "HamR 管家应用 (P2P 本地化)",
   "status": "in_progress",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-13",
+  "updated_date": "2026-03-18",
   "owner": "AI",
-  "tags": ["核心应用", "家庭管理", "五维管理", "Phase1", "React", "Rust", "Axum", "PostgreSQL"],
+  "tags": ["核心应用", "家庭管理", "P2P", "Web3", "隐私保护", "本地化", "libp2p", "SQLite", "Electron", "React Native"],
   "documents": {
     "project": "projects/active/HamR管家应用-20260305.md",
-    "proposal": null,
+    "proposal": "planning/proposals/hamr-butler-p2p-architecture-20260318.md",
     "roadmap": null,
     "review": null,
     "sprint": [],
@@ -18,25 +18,30 @@
   },
   "milestones": [
     {
-      "name": "需求确认 & 数据模型设计",
-      "date": "2026-03-10",
-      "status": "completed"
-    },
-    {
-      "name": "后端开发（五维 CRUD API）",
-      "date": "2026-03-10",
-      "status": "completed"
-    },
-    {
-      "name": "前端开发（Dashboard + 五维页面）",
-      "date": "2026-03-10",
-      "status": "completed"
-    },
-    {
-      "name": "测试上线",
-      "date": "2026-05-30",
+      "name": "架构重构（P2P + Web3）",
+      "date": "2026-03-25",
       "status": "in_progress"
+    },
+    {
+      "name": "P2P 同步原型（libp2p）",
+      "date": "2026-04-15",
+      "status": "pending"
+    },
+    {
+      "name": "Web3 身份认证（DID）",
+      "date": "2026-04-30",
+      "status": "pending"
+    },
+    {
+      "name": "桌面端 MVP（Electron）",
+      "date": "2026-06-30",
+      "status": "pending"
+    },
+    {
+      "name": "移动端 MVP（React Native）",
+      "date": "2026-07-30",
+      "status": "pending"
     }
   ],
-  "description": "HamR 核心数据管理应用。实现五维管理：人（成员档案/角色/联系方式/生日）、时（家庭日历/事件分类/提醒）、事（待办清单/优先级/里程碑/状态追踪）、物（家庭资产/分类/位置/过期提醒）、境（生活空间/类型/描述）。包含 Dashboard 概览（各维度统计）。后端：Rust + Axum + SQLx + PostgreSQL。前端：React 19 + Tailwind CSS v4 + Zustand + date-fns。JWT 认证与 hamr-account 共享。"
+  "description": "P2P 本地化家庭管理系统。使用 Web3 身份认证（DID），数据完全本地化存储（SQLite），局域网内多设备 P2P 同步（libp2p + CRDT）。面向 3-5 人家庭场景，核心是隐私保护和数据主权。技术栈：Rust + Axum + SQLite + libp2p + Electron + React Native。年度节省服务器成本 ¥31,200。"
 }
