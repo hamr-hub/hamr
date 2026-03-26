@@ -4,7 +4,7 @@
   "status": "in_progress",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-18",
+  "updated_date": "2026-03-26",
   "owner": "AI",
   "tags": ["核心应用", "家庭管理", "P2P", "Web3", "隐私保护", "本地化", "libp2p", "SQLite", "Electron", "React Native"],
   "documents": {
@@ -20,12 +20,12 @@
     {
       "name": "架构重构（P2P + Web3）",
       "date": "2026-03-25",
-      "status": "in_progress"
+      "status": "completed"
     },
     {
       "name": "P2P 同步原型（libp2p）",
       "date": "2026-04-15",
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "name": "Web3 身份认证（DID）",
@@ -43,5 +43,5 @@
       "status": "pending"
     }
   ],
-  "description": "P2P 本地化家庭管理系统。使用 Web3 身份认证（DID），数据完全本地化存储（SQLite），局域网内多设备 P2P 同步（libp2p + CRDT）。面向 3-5 人家庭场景，核心是隐私保护和数据主权。技术栈：Rust + Axum + SQLite + libp2p + Electron + React Native。年度节省服务器成本 ¥31,200。"
+  "description": "P2P 本地化家庭管理系统。使用 Web3 身份认证（DID），数据完全本地化存储（SQLite），局域网内多设备 P2P 同步（libp2p + GossipSub + mDNS + LWW）。面向 3-5 人家庭场景，核心是隐私保护和数据主权。技术栈：Rust + Axum + SQLite + libp2p + Electron + React Native。年度节省服务器成本 ¥31,200。"
 }

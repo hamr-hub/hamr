@@ -67,7 +67,7 @@
 | MVP：浏览器引擎 + 基础流程执行 | 可运行的核心引擎 | 2026-04-07 | ✅ |
 | API 服务封装 | RESTful API 可调用 | 2026-04-21 | ✅ |
 | 流程配置化 + 参数化 | YAML 配置驱动 | 2026-05-05 | ✅ |
-| Web 管理界面 | 可视化管理流程 | 2026-05-19 | ⏳ |
+| Web 管理界面 | 可视化管理流程 | 2026-05-19 | 🟢 |
 | 上线部署 | Docker 生产部署 | 2026-05-31 | ⏳ |
 
 图例：✅ 已完成 | 🟢 进行中 | ⏳ 未开始 | 🔴 有风险
@@ -172,30 +172,24 @@ result:
 
 ### 当前进度
 
-- 整体进度：80%
-- 最后更新：2026-03-18
+- 整体进度：90%
+- 最后更新：2026-03-26
 
 ### 本周进展
 
-- 完成：项目立项、技术方案设计（含 Demo 案例分析）、完整代码骨架开发
-- 完成：核心模块实现（BrowserManager / FlowEngine / StepExecutor / AuthChecker / RequestInterceptor）
-- 完成：sellersprite_sales 流程配置文件（Demo 场景）
-- 完成：Docker 部署配置
-- 完成：浏览器崩溃自动重启机制（context close 事件监听 + 健康检查重初始化）
-- 完成：流程执行失败自动重试（最多1次，重启浏览器后重试）
-- 完成：page 异常后必然关闭保障（finally try/except）
-- 完成：`try_selectors` 步骤类型（多选择器容错轮询）
-- 完成：`fill` 步骤支持 `selectors` 列表（多候选选择器）
-- 完成：新增 `press_key` / `scroll_to` 步骤类型
-- 完成：登录流程加入调试截图（login_page / login_before_submit / login_success）
-- 完成：修复登录选择器 Bug（移除不支持的 `:visible` 伪类）
-- 完成：本地环境联调（浏览器初始化、服务启动正常）
-- 进行中：sellersprite_sales 全流程跑通验证
+- 完成：Web 管理界面开发（Vue 3 + Vite + TypeScript + TailwindCSS）
+- 完成：FlowList 流程列表页（卡片展示、YAML上传注册、删除）
+- 完成：FlowDetail 流程详情页（动态参数表单、执行、结果展示）
+- 完成：LogList 执行日志页（历史记录、统计、详情弹窗）
+- 完成：BrowserStatus 浏览器状态页（登录态检测、重启浏览器）
+- 完成：api.ts 封装所有后端接口，统一错误处理
+- 完成：Vite dev proxy 配置，开发无跨域问题
 
 ### 下周计划
 
-- 完成 sellersprite_sales 全流程跑通验证
-- Web 管理界面开发启动（Vue 3）
+- Docker 生产环境部署（前后端一体）
+- sellersprite_sales 全流程端到端验证
+- 上线部署到 browser.hamr.app
 
 ## 📝 关键决策记录
 
