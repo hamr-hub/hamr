@@ -1,0 +1,24 @@
+{
+  "project": {
+    "name": "hamr",
+    "type": "knowledge-base",
+    "platform": "codeflicker",
+    "description": "HamR 项目规划知识库 - 存储项目规划、执行过程和复盘总结文档"
+  },
+  "directories": {
+    "platformDir": ".codeflicker",
+    "snippets": ".codeflicker/snippets",
+    "docs": "docs",
+    "projects": "projects",
+    "templates": "templates"
+  },
+  "commands": {
+    "dev": "echo 'Knowledge base project - no dev server'",
+    "lint": "echo 'No linter configured'",
+    "test": "echo 'No tests configured'"
+  },
+  "skills": {
+    "enabled": true,
+    "autoUpdate": false
+  }
+}
