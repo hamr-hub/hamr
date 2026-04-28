@@ -9,7 +9,7 @@
   "tags": ["AI-Agent", "家庭关系", "生活助手", "情感支持"],
   "documents": {
     "project": "projects/active/家庭关系修复Agent-20260429.md",
-    "proposal": null,
+    "proposal": "planning/proposals/家庭关系修复Agent-技术方案-20260429.md",
     "roadmap": "planning/roadmaps/家庭关系修复Agent-roadmap-2026.md",
     "review": null,
     "sprint": [],
@@ -24,8 +24,8 @@
     },
     {
       "name": "技术方案设计",
-      "date": "2026-05-02",
-      "status": "pending"
+      "date": "2026-04-29",
+      "status": "completed"
     },
     {
       "name": "核心功能开发",
