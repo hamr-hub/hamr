@@ -1,0 +1,52 @@
+{
+  "id": "PROJ-016",
+  "name": "家庭关系修复Agent",
+  "status": "active",
+  "priority": "high",
+  "created_date": "2026-04-29",
+  "updated_date": "2026-04-29",
+  "owner": "AI助手",
+  "tags": ["AI-Agent", "家庭关系", "生活助手", "情感支持"],
+  "documents": {
+    "project": "projects/active/家庭关系修复Agent-20260429.md",
+    "proposal": null,
+    "roadmap": null,
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "需求确认",
+      "date": "2026-04-29",
+      "status": "completed"
+    },
+    {
+      "name": "技术方案设计",
+      "date": "2026-05-02",
+      "status": "pending"
+    },
+    {
+      "name": "核心功能开发",
+      "date": "2026-05-08",
+      "status": "pending"
+    },
+    {
+      "name": "长期规划模块",
+      "date": "2026-05-12",
+      "status": "pending"
+    },
+    {
+      "name": "每日清单功能",
+      "date": "2026-05-14",
+      "status": "pending"
+    },
+    {
+      "name": "测试与优化",
+      "date": "2026-05-15",
+      "status": "pending"
+    }
+  ],
+  "description": "全自动家庭关系修复Agent，代替用户主动补位、情绪兜底、减少矛盾、稳定婚姻、轻量顾家。核心功能：日常关心提醒、下班家务接管、情绪矛盾拦截。"
+}
