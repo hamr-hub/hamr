@@ -39,4 +39,4 @@
 	url = https://github.com/hamr-hub/hamr-browser.git
 [submodule "repos/hamr-mood-calender"]
 	path = repos/hamr-mood-calender
-	url = https://github.com/hamr-hub/hamr-mood-calender.git
+	url = git@github.com:hamr-hub/hamr-mood-calender.git
