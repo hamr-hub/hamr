@@ -4,9 +4,9 @@
   "status": "completed",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-18",
+  "updated_date": "2026-05-29",
   "owner": "AI Assistant",
-  "tags": ["前端", "官网", "品牌", "Phase1", "hamr.store", "静态站点"],
+  "tags": ["前端", "官网", "品牌", "Phase1", "hamr.store", "静态站点", "视觉重构"],
   "documents": {
     "project": "projects/active/官网建设-20260305.md",
     "proposal": null,
