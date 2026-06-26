@@ -5,8 +5,14 @@
   "priority": "medium",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-13",
-  "owner": "AI",
-  "tags": ["演示", "体验", "Phase1", "限流", "数据重置"],
+  "owner": "HamR Team",
+  "tags": [
+    "演示",
+    "体验",
+    "Phase1",
+    "限流",
+    "数据重置"
+  ],
   "documents": {
     "project": "projects/active/在线演示环境-20260305.md",
     "proposal": null,

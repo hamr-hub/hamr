@@ -5,8 +5,15 @@
   "priority": "medium",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-13",
-  "owner": "AI",
-  "tags": ["文档", "私有部署", "Docker", "K8s", "Phase1", "运维"],
+  "owner": "HamR Team",
+  "tags": [
+    "文档",
+    "私有部署",
+    "Docker",
+    "K8s",
+    "Phase1",
+    "运维"
+  ],
   "documents": {
     "project": "projects/active/部署指南站-20260305.md",
     "proposal": null,

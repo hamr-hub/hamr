@@ -5,9 +5,20 @@
   "priority": "high",
   "created_date": "2026-03-04",
   "updated_date": "2026-03-13",
-
-  "owner": "待定",
-  "tags": ["基础设施", "域名规划", "品牌建设", "双域名体系", "hamr.store", "hamr.top", "家庭智能助理", "隐私优先", "私有部署", "五维管理", "阿里云DNS"],
+  "owner": "HamR Team",
+  "tags": [
+    "基础设施",
+    "域名规划",
+    "品牌建设",
+    "双域名体系",
+    "hamr.store",
+    "hamr.top",
+    "家庭智能助理",
+    "隐私优先",
+    "私有部署",
+    "五维管理",
+    "阿里云DNS"
+  ],
   "documents": {
     "project": "projects/active/域名规划与基础设施-20260304.md",
     "proposal": "planning/proposals/域名分配详细清单-20260304.md",
@@ -61,7 +72,13 @@
       "hamr": "家庭大管家 - 日常管理与数据存储",
       "jiabu": "智能决策助手 - 辅助决策与未来规划"
     },
-    "five_dimensions": ["人", "时", "事", "物", "境"],
+    "five_dimensions": [
+      "人",
+      "时",
+      "事",
+      "物",
+      "境"
+    ],
     "domain_count": {
       "total": 55,
       "hamr_store": 30,

@@ -1,0 +1,6 @@
+# Project metadata · generated 2026-06-26
+type: ai
+status: active        # active | paused | completed | archived | abandoned
+priority: P2    # P0 (critical) | P1 (high) | P2 (medium) | P3 (low)
+tags: [planning,knowledge,agent]
+description: 项目规划知识库（projects / planning / execution / reports）

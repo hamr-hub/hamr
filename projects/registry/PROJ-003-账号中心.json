@@ -5,8 +5,17 @@
   "priority": "high",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-26",
-  "owner": "AI",
-  "tags": ["后端", "认证", "SSO", "家庭管理", "Phase1", "OAuth2", "JWT", "安全"],
+  "owner": "HamR Team",
+  "tags": [
+    "后端",
+    "认证",
+    "SSO",
+    "家庭管理",
+    "Phase1",
+    "OAuth2",
+    "JWT",
+    "安全"
+  ],
   "documents": {
     "project": "projects/active/账号中心-20260305.md",
     "proposal": null,

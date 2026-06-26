@@ -5,8 +5,14 @@
   "priority": "medium",
   "created_date": "2026-03-18",
   "updated_date": "2026-03-18",
-  "owner": "HamR 团队",
-  "tags": ["Web应用", "情绪管理", "VibeCoding", "前端", "React"],
+  "owner": "HamR Team",
+  "tags": [
+    "Web应用",
+    "情绪管理",
+    "VibeCoding",
+    "前端",
+    "React"
+  ],
   "repository": "repos/hamr-mood-calender",
   "documents": {
     "project": "projects/active/心情日历-20260318.md",

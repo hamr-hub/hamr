@@ -5,8 +5,16 @@
   "priority": "high",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-13",
-  "owner": "AI",
-  "tags": ["后端", "API", "网关", "Phase1", "Kong", "RESTful", "OAuth2"],
+  "owner": "HamR Team",
+  "tags": [
+    "后端",
+    "API",
+    "网关",
+    "Phase1",
+    "Kong",
+    "RESTful",
+    "OAuth2"
+  ],
   "documents": {
     "project": "projects/active/API服务-20260305.md",
     "proposal": null,

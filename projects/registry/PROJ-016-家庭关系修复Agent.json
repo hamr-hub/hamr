@@ -5,8 +5,13 @@
   "priority": "high",
   "created_date": "2026-04-29",
   "updated_date": "2026-04-29",
-  "owner": "AI助手",
-  "tags": ["AI-Agent", "家庭关系", "生活助手", "情感支持"],
+  "owner": "HamR Team",
+  "tags": [
+    "AI-Agent",
+    "家庭关系",
+    "生活助手",
+    "情感支持"
+  ],
   "documents": {
     "project": "projects/active/家庭关系修复Agent-20260429.md",
     "proposal": "planning/proposals/家庭关系修复Agent-技术方案-20260429.md",

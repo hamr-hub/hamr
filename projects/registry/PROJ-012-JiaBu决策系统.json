@@ -5,8 +5,16 @@
   "priority": "medium",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-13",
-  "owner": "AI",
-  "tags": ["AI决策", "智能助手", "Phase2", "Rust", "Axum", "幸福感评估", "React"],
+  "owner": "HamR Team",
+  "tags": [
+    "AI决策",
+    "智能助手",
+    "Phase2",
+    "Rust",
+    "Axum",
+    "幸福感评估",
+    "React"
+  ],
   "documents": {
     "project": "projects/active/JiaBu决策系统-20260305.md",
     "proposal": null,
