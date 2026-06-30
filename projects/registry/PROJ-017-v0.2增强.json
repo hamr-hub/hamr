@@ -1,0 +1,57 @@
+{
+  "id": "PROJ-017",
+  "name": "HamR v0.2 增强（基于 2026-06-30 全家族 deep-research）",
+  "status": "active",
+  "priority": "high",
+  "created_date": "2026-06-30",
+  "updated_date": "2026-06-30",
+  "owner": "HamR Team",
+  "tags": ["v0.2", "enhancement", "audit", "cross-repo", "P0-fixes"],
+  "description": "基于 6 个并行 deep-research agent 对 14 个子项目 + 跨切基础设施的审计结果，集中登记 v0.1 → v0.2 阶段必须修的 13 个 P0 信任/可用性缺陷、4 个架构决策项、7 个跨切 P1 抽取工作。源报告见 .iter-skill/runs/2026-06-30/。",
+  "documents": {
+    "project": "projects/active/HamR-v0.2增强-20260630.md",
+    "synthesis": ".iter-skill/runs/2026-06-30/00-master-synthesis.md",
+    "reports_dir": ".iter-skill/runs/2026-06-30/",
+    "proposal": "planning/proposals/v0.2-enhancements-20260630.md",
+    "roadmap": "planning/roadmaps/v0.2-roadmap-2026Q3.md"
+  },
+  "milestones": [
+    {
+      "name": "P0 信任缺陷修复（13 项）",
+      "date": "2026-07-15",
+      "status": "pending",
+      "blocking_reason": "submodule .git 缺失需先修复"
+    },
+    {
+      "name": "架构决策 D-1/D-2 拍板（hamr-app 改名 / hamr-browser 拆名）",
+      "date": "2026-07-08",
+      "status": "pending"
+    },
+    {
+      "name": "跨切抽取 X-1..X-7 落地（pkg-hamr / astro-config / Dockerfile.base / nginx-hardened / helm-common / CI / notifier）",
+      "date": "2026-08-15",
+      "status": "pending"
+    },
+    {
+      "name": "全家族 Prometheus metrics emit（http_requests_total{service=...}）",
+      "date": "2026-08-30",
+      "status": "pending"
+    },
+    {
+      "name": "v0.2 验收 + 全家族 e2e 测试",
+      "date": "2026-09-30",
+      "status": "pending"
+    }
+  ],
+  "p0_defects_count": 13,
+  "architecture_decisions_count": 4,
+  "cross_cutting_count": 7,
+  "subprojects_affected": [
+    "hamr-website", "hamr-docs", "hamr-help",
+    "hamr-browser", "hamr-demo",
+    "hamr-account", "hamr-api", "hamr-status",
+    "hamr-deploy", "hamr-jiabu", "hamr-mood-calender",
+    "hamr-app",
+    "hamr-developer", "hamr-infra"
+  ]
+}

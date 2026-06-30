@@ -1,0 +1,88 @@
+# templates/CI/vite.yaml
+#
+# HamR Vite/TypeScript 服务共用 CI workflow 模板。
+# 来源：2026-06-30 Cluster 2 — hamr-browser / hamr-demo 缺 CI。
+
+name: vite
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    name: build / typecheck / test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: TypeScript
+        run: npx tsc --noEmit
+
+      - name: ESLint
+        run: npx eslint . --max-warnings=0
+
+      - name: Vitest
+        run: npm run test -- --coverage --run
+
+      - name: Build
+        run: npm run build
+
+      - name: Bundle size check
+        # Cluster 2 #3: hamr-demo 静态 import chart.js/auto ~70KB gz
+        # 此步骤失败如果初始 chunk 超过 200KB（gzip）
+        run: |
+          find dist/assets -name '*.js' -exec gzip -k {} \;
+          SIZE=$(find dist/assets -name '*.js.gz' -exec stat -c %s {} \; | sort -rn | head -1)
+          echo "Largest gzipped JS: ${SIZE} bytes"
+          if [ "$SIZE" -gt 204800 ]; then
+            echo "::error::Initial JS chunk > 200KB gzipped — convert static imports to lazy import()"
+            exit 1
+          fi
+
+      - name: Upload coverage
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ github.event.pull_request.number }}
+          path: coverage/
+          retention-days: 7
+
+  build-docker:
+    name: build docker image
+    runs-on: ubuntu-latest
+    needs: build-test
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build + push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ github.event_name == 'push' }}
+          tags: ghcr.io/${{ github.repository }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

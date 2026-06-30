@@ -349,9 +349,61 @@
 | PROJ-012 | JiaBu决策系统 | 🟢 进行中 | Medium | 2026-08-30 |
 | PROJ-013 | 基础设施运维 | 🟢 进行中 | Medium | 2026-09-30 |
 
+### 附录补遗 (2026-06-30 v0.1.1 更新)
+
+注册表新增 / 调整：
+- **PROJ-015 心情日历** — ✅ 已完成（2026-05-20）
+- **PROJ-016 家庭关系修复Agent** — 🆕 新立项（2026-04-29，AI-Agent 方向）
+- **PROJ-017 v0.2 增强** — 🆕 新立项（2026-06-30，审计驱动）
+
+状态值修正：注册表里 8 个 PROJ（003/005/008/009/010/011/012/013）原状态值 `in_progress` 不在文档规范枚举里，已统一为 `active`。本附录保留旧版表述以维持历史可追溯。
+
 ---
 
-**文档版本**：v1.0  
-**创建日期**：2026-03-18  
-**最后更新**：2026-03-18  
+## v0.2 增强阶段（2026 Q3）— 2026-06-30 全家族审计驱动
+
+> 来源：6 个并行 deep-research agent 对 14 个 v0.1 子项目 + 跨切基础设施的审计
+> 报告：`.iter-skill/runs/2026-06-30/`（670+ 行结构化输出）
+> 项目：[PROJ-017 v0.2 增强](../../projects/active/HamR-v0.2增强-20260630.md)
+
+### 触发原因
+
+v0.1 已完成 14 个项目的骨架（PROJ-001 ~ PROJ-014 + PROJ-015 心情日历）。2026-06-30 全家族 deep-research 发现 **13 个 P0 信任/可用性缺陷** 上 main 分支，包括但不限于：
+
+| 严重度 | 代表缺陷 | 子项目 |
+|--------|----------|--------|
+| P0 | 鉴权 endpoint 永远 200 OK | hamr-account |
+| P0 | 生产部署永远标记成功 | hamr-deploy |
+| P0 | 隐私默认反了，content 默认驻留 | hamr-jiabu |
+| P0 | CORS 通配 + Allow-Credentials | hamr-api |
+| P0 | Prometheus 全家族 0 emit | 14 子项目 |
+| P0 | SOPS placeholder + Grafana admin 明文 | hamr-infra |
+| P0 | helm lib-common 空目录 | hamr-infra |
+
+### Q3 重点（v0.2 上线门槛）
+
+- 🔴 **P0 修复 13 项** — 截止 2026-07-15
+- 🟡 **跨切抽取 7 项**（pkg-hamr / astro-config / Dockerfile.base / nginx-hardened / helm-common / CI 模板 / notifier）— 截止 2026-08-15
+- 🟢 **架构决策 D-1/D-2 拍板**（hamr-app 改名 / hamr-browser 拆名）— 截止 2026-07-08
+- 🟢 **全家族 metrics emit + 告警联调** — 截止 2026-08-30
+
+### Q4 重点（v0.2 验收）
+
+- 🟢 **e2e 回归测试**（Playwright + load test）— 截止 2026-09-15
+- 🟢 **v0.2 验收报告 + retrospective** — 截止 2026-09-30
+- 🔵 **v1.0 启动规划**（2027 Q1）
+
+### 资源
+
+- 父仓库：`templates/shared/`（Dockerfile.base / nginx-hardened / pkg-hamr / astro-config）
+- 父仓库：`.github/workflows-template/`（go / vite / astro 三套 CI 模板）
+- 父仓库：`proposed-fixes/`（13 个 P0 的 PR-ready patch）
+- 子项目仓库：submodule `.git/` 修复后即可一键采纳
+
+---
+
+**文档版本**：v1.1
+**创建日期**：2026-03-18
+**最后更新**：2026-06-30
 **维护者**：HamR Team
+**本次变更**：补全注册表附录 + 新增 v0.2 增强章节（基于 2026-06-30 全家族审计）

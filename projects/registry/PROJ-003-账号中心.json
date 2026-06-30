@@ -1,7 +1,7 @@
 {
   "id": "PROJ-003",
   "name": "账号中心与家庭管理 (account.hamr.store)",
-  "status": "in_progress",
+  "status": "active",
   "priority": "high",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-26",
@@ -49,7 +49,7 @@
     {
       "name": "测试上线",
       "date": "2026-05-15",
-      "status": "in_progress"
+      "status": "active"
     }
   ],
   "description": "HamR 平台身份认证与授权中心。职责：用户身份管理（注册/登录/密码管理）、家庭组织管理（创建/邀请/角色权限：管理员/成员/观察者）、SSO 单点登录（OAuth2+JWT，覆盖*.hamr.store和*.hamr.top全域名）、会话管理（Token签发/刷新/撤销）、安全审计（2FA/登录历史/异常检测）。提供完整的RESTful API供其他服务调用。采用 bcrypt+AES-256 加密，PostgreSQL+Redis 存储，支持私有部署本地认证。"
