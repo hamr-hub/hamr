@@ -1,3 +1,11 @@
+# NOTE (2026-08): This workflow is a placeholder / experiment.  It is
+# kept here for reference but is currently inert because the
+# `QoderAI/qoder-action` (third-party, Qoder IDE's assistant action) is
+# pinned at `@v0` — there is no `@v4` for it.  It will only ever fire
+# if `QODER_PERSONAL_ACCESS_TOKEN` is configured for the repo AND a
+# user comments `@qoder` on an issue / PR review.  The repo's own CI
+# (markdown lint + JSON validation) lives in `ci.yml` and does NOT
+# depend on this file.
 name: Qoder Assistant
 
 on:
