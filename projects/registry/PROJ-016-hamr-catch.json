@@ -1,0 +1,80 @@
+{
+  "id": "PROJ-016",
+  "name": "hamr-catch 家庭资产盘点 P2P 平台",
+  "status": "active",
+  "priority": "medium",
+  "created_date": "2026-08-31",
+  "updated_date": "2026-08-31",
+  "owner": "HamR 团队",
+  "tags": ["PWA", "WebRTC", "P2P", "家庭", "离线优先", "Rust"],
+  "description": "纯局域网 P2P 家庭资产盘点平台，无公网服务器，数据完全本地化，设备通过 WebRTC 直连同步。",
+  "documents": {
+    "project": "projects/active/hamr-catch-20260831.md",
+    "proposal": "planning/proposals/hamr-catch-方案-20260831.md",
+    "roadmap": null,
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null,
+    "repo": "repos/hamr-catch"
+  },
+  "milestones": [
+    {
+      "name": "需求确认",
+      "date": "2026-08-31",
+      "status": "completed",
+      "completion_date": "2026-08-31"
+    },
+    {
+      "name": "Rust 静态服务",
+      "date": "2026-09-02",
+      "status": "in_progress",
+      "completion_date": null
+    },
+    {
+      "name": "PWA 核心模块",
+      "date": "2026-09-05",
+      "status": "pending",
+      "completion_date": null
+    },
+    {
+      "name": "WebRTC P2P",
+      "date": "2026-09-08",
+      "status": "pending",
+      "completion_date": null
+    },
+    {
+      "name": "设备管理与导出",
+      "date": "2026-09-10",
+      "status": "pending",
+      "completion_date": null
+    },
+    {
+      "name": "PWA 安装到桌面",
+      "date": "2026-09-12",
+      "status": "pending",
+      "completion_date": null
+    },
+    {
+      "name": "文档与安装指南",
+      "date": "2026-09-14",
+      "status": "pending",
+      "completion_date": null
+    },
+    {
+      "name": "真实设备联调",
+      "date": "2026-09-15",
+      "status": "pending",
+      "completion_date": null
+    }
+  ],
+  "tech_stack": {
+    "server": "Rust (stdlib only)",
+    "frontend": "HTML + Vanilla JS + Tailwind CDN",
+    "pwa": "manifest.json + Service Worker",
+    "storage": "IndexedDB",
+    "p2p": "WebRTC DataChannel",
+    "discovery": "QR Code (qrcode.js + html5-qrcode)",
+    "image": "Canvas + Blob"
+  }
+}
