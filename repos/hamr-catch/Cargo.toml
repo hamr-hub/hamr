@@ -1,0 +1,20 @@
+[package]
+name = "hamr-catch"
+version = "0.1.0"
+edition = "2021"
+description = "hamr-catch: 纯局域网 P2P 家庭资产盘点平台 - 极简静态文件服务"
+license = "MIT"
+
+[[bin]]
+name = "hamr-catch"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = "z"
+lto = true
+strip = true
+codegen-units = 1
+panic = "abort"
+
+[dependencies]
+# 0 外部依赖！全部使用 Rust 标准库

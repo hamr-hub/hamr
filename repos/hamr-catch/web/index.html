@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="HamR Catch" />
+  <meta name="description" content="家庭资产盘点 P2P 平台 - 数据完全本地化，局域网直连同步" />
+  <title>HamR Catch - 家庭资产盘点</title>
+
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Tailwind CDN (生产环境可换为本地构建) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#0f172a',
+            accent: '#06b6d4',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen pb-20">
+
+  <!-- 顶部导航 -->
+  <header class="sticky top-0 z-30 bg-ink text-white shadow-lg">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">📦</span>
+        <div>
+          <div class="font-bold text-lg leading-tight">HamR Catch</div>
+          <div class="text-xs text-slate-300 leading-tight">家庭资产盘点 · 局域网 P2P</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span id="net-badge" class="px-2 py-1 text-xs rounded-full bg-slate-700">离线</span>
+        <button id="btn-add" class="bg-accent hover:bg-cyan-500 px-3 py-1.5 rounded-lg text-sm font-medium">
+          + 新增
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容容器 -->
+  <main id="app" class="max-w-3xl mx-auto px-4 py-4">
+
+    <!-- 视图：资产清单 -->
+    <section id="view-list" class="view">
+      <!-- 筛选 -->
+      <div class="bg-white rounded-xl shadow-sm p-3 mb-3 sticky top-[68px] z-20">
+        <div class="flex gap-2 mb-2">
+          <input id="search" type="search" placeholder="🔍 搜索资产..."
+            class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+        </div>
+        <div class="flex gap-2 text-xs overflow-x-auto">
+          <button data-filter-cat="" class="cat-btn px-3 py-1 rounded-full bg-slate-900 text-white whitespace-nowrap">全部</button>
+          <button data-filter-cat="数码" class="cat-btn px-3 py-1 rounded-full bg-slate-100 whitespace-nowrap">📱 数码</button>
+          <button data-filter-cat="家电" class="cat-btn px-3 py-1 rounded-full bg-slate-100 whitespace-nowrap">🔌 家电</button>
+          <button data-filter-cat="家具" class="cat-btn px-3 py-1 rounded-full bg-slate-100 whitespace-nowrap">🛋 家具</button>
+          <button data-filter-cat="收藏" class="cat-btn px-3 py-1 rounded-full bg-slate-100 whitespace-nowrap">💎 收藏</button>
+          <button data-filter-cat="服饰" class="cat-btn px-3 py-1 rounded-full bg-slate-100 whitespace-nowrap">👕 服饰</button>
+          <button data-filter-cat="证件" class="cat-btn px-3 py-1 rounded-full bg-slate-100 whitespace-nowrap">📄 证件</button>
+          <button data-filter-cat="其他" class="cat-btn px-3 py-1 rounded-full bg-slate-100 whitespace-nowrap">📦 其他</button>
+        </div>
+        <div class="mt-2 flex items-center justify-between text-xs text-slate-500">
+          <span id="stat">共 0 件资产</span>
+          <select id="sort" class="text-xs bg-transparent border border-slate-200 rounded px-2 py-1">
+            <option value="updated-desc">最近更新</option>
+            <option value="buyDate-desc">购买时间新→旧</option>
+            <option value="price-desc">价格高→低</option>
+            <option value="name-asc">名称 A→Z</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 列表 -->
+      <div id="asset-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+
+      <!-- 空状态 -->
+      <div id="empty-state" class="hidden text-center py-16 text-slate-400">
+        <div class="text-6xl mb-4">📦</div>
+        <div class="text-lg font-medium text-slate-600">还没有任何资产</div>
+        <div class="text-sm mt-2">点击右上角"+ 新增"开始记录吧</div>
+      </div>
+    </section>
+
+    <!-- 视图：编辑资产 -->
+    <section id="view-edit" class="view hidden">
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <h2 id="edit-title" class="text-xl font-bold mb-4">新增资产</h2>
+        <form id="asset-form" class="space-y-3">
+          <input type="hidden" name="id" />
+
+          <div>
+            <label class="block text-sm font-medium mb-1">名称 *</label>
+            <input name="name" required placeholder="如：索尼 WH-1000XM5 耳机"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-sm font-medium mb-1">分类</label>
+              <select name="category" class="w-full px-3 py-2 border border-slate-200 rounded-lg">
+                <option>数码</option>
+                <option>家电</option>
+                <option>家具</option>
+                <option>收藏</option>
+                <option>服饰</option>
+                <option>证件</option>
+                <option>其他</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">价格 (元)</label>
+              <input name="price" type="number" min="0" step="0.01" placeholder="0.00"
+                class="w-full px-3 py-2 border border-slate-200 rounded-lg" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-sm font-medium mb-1">购买日期</label>
+              <input name="buyDate" type="date"
+                class="w-full px-3 py-2 border border-slate-200 rounded-lg" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">存放位置</label>
+              <input name="location" placeholder="如：客厅电视柜"
+                class="w-full px-3 py-2 border border-slate-200 rounded-lg" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1">备注</label>
+            <textarea name="note" rows="3" placeholder="序列号、保修、补充说明..."
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg"></textarea>
+          </div>
+
+          <!-- 照片 -->
+          <div>
+            <label class="block text-sm font-medium mb-1">照片</label>
+            <div id="photos-preview" class="flex flex-wrap gap-2 mb-2"></div>
+            <div class="flex gap-2">
+              <button type="button" id="btn-camera" class="flex-1 px-3 py-2 bg-slate-100 rounded-lg text-sm hover:bg-slate-200">
+                📷 拍照
+              </button>
+              <button type="button" id="btn-gallery" class="flex-1 px-3 py-2 bg-slate-100 rounded-lg text-sm hover:bg-slate-200">
+                🖼 相册
+              </button>
+            </div>
+            <input type="file" id="camera-input" accept="image/*" capture="environment" class="hidden" />
+            <input type="file" id="gallery-input" accept="image/*" multiple class="hidden" />
+          </div>
+
+          <div class="flex gap-2 pt-3 border-t">
+            <button type="button" id="btn-cancel" class="flex-1 px-4 py-2.5 bg-slate-100 rounded-lg font-medium">
+              取消
+            </button>
+            <button type="submit" class="flex-1 px-4 py-2.5 bg-accent text-white rounded-lg font-medium hover:bg-cyan-500">
+              保存
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 视图：设备管理 -->
+    <section id="view-devices" class="view hidden">
+      <div class="bg-white rounded-xl shadow-sm p-4 mb-3">
+        <h2 class="text-xl font-bold mb-2">📱 设备与同步</h2>
+        <div class="text-sm text-slate-600 mb-3">
+          本设备 ID: <code id="my-device-id" class="text-xs bg-slate-100 px-2 py-0.5 rounded"></code>
+        </div>
+        <div class="text-sm text-slate-600 mb-4">
+          本设备名称: <code id="my-device-name" class="text-xs bg-slate-100 px-2 py-0.5 rounded"></code>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 mb-4">
+          <button id="btn-show-qr" class="px-4 py-3 bg-accent text-white rounded-lg font-medium">
+            📤 生成我的二维码
+          </button>
+          <button id="btn-scan-qr" class="px-4 py-3 bg-slate-800 text-white rounded-lg font-medium">
+            📷 扫码加入家庭
+          </button>
+        </div>
+
+        <div class="text-sm text-slate-600 mb-2">已配对设备：</div>
+        <div id="peer-list" class="space-y-2 mb-4"></div>
+
+        <div class="flex gap-2">
+          <button id="btn-sync-now" class="flex-1 px-4 py-2.5 bg-cyan-600 text-white rounded-lg font-medium">
+            🔄 立即同步
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <h3 class="font-bold mb-2">📋 同步日志</h3>
+        <div id="sync-log" class="text-xs font-mono bg-slate-50 rounded p-2 max-h-64 overflow-y-auto space-y-1"></div>
+        <button id="btn-clear-log" class="mt-2 text-xs text-slate-500 hover:text-slate-700">清空日志</button>
+      </div>
+    </section>
+
+    <!-- 视图：备份导出 -->
+    <section id="view-backup" class="view hidden">
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <h2 class="text-xl font-bold mb-3">💾 备份与导出</h2>
+        <p class="text-sm text-slate-600 mb-4">
+          数据仅在本机，强烈建议定期导出备份到云盘 / U 盘，避免设备损坏丢失。
+        </p>
+
+        <div class="space-y-2">
+          <button id="btn-export-json" class="w-full px-4 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg text-left">
+            <div class="font-medium">📄 导出为 JSON</div>
+            <div class="text-xs text-slate-500">完整数据，含缩略图，可在另一台设备导入恢复</div>
+          </button>
+          <button id="btn-export-xlsx" class="w-full px-4 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg text-left">
+            <div class="font-medium">📊 导出为 Excel (.xlsx)</div>
+            <div class="text-xs text-slate-500">不含照片，仅资产清单，方便查看与编辑</div>
+          </button>
+          <button id="btn-export-photos" class="w-full px-4 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg text-left">
+            <div class="font-medium">🖼 导出原图 (ZIP)</div>
+            <div class="text-xs text-slate-500">把所有原图打包为 ZIP，便于单独备份</div>
+          </button>
+          <hr class="my-3" />
+          <button id="btn-import-json" class="w-full px-4 py-3 bg-amber-50 hover:bg-amber-100 rounded-lg text-left">
+            <div class="font-medium">📥 导入 JSON 备份</div>
+            <div class="text-xs text-slate-500">从其他设备的导出文件恢复</div>
+          </button>
+          <input type="file" id="import-input" accept=".json,application/json" class="hidden" />
+        </div>
+
+        <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+          ⚠️ <strong>重要提醒</strong>：所有数据仅存在本机。如设备损坏且未备份，数据将永久丢失。
+          建议每月导出一次 JSON + 原图 ZIP，保存到 iCloud / OneDrive / 网盘。
+        </div>
+      </div>
+    </section>
+
+    <!-- 模态框：二维码 / 扫码 / 详情 -->
+    <div id="modal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-md w-full p-6 relative">
+        <button id="modal-close" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700">✕</button>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-2 rounded-lg text-sm shadow-lg z-50 hidden"></div>
+
+  </main>
+
+  <!-- 底部导航 -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-30">
+    <div class="max-w-3xl mx-auto grid grid-cols-3 text-center">
+      <button data-view="list" class="nav-btn py-3 text-xs font-medium text-slate-900 border-t-2 border-accent">
+        📦 资产
+      </button>
+      <button data-view="devices" class="nav-btn py-3 text-xs font-medium text-slate-400 border-t-2 border-transparent">
+        🔗 设备
+      </button>
+      <button data-view="backup" class="nav-btn py-3 text-xs font-medium text-slate-400 border-t-2 border-transparent">
+        💾 备份
+      </button>
+    </div>
+  </nav>
+
+  <!-- QR 扫码视频流 -->
+  <video id="qr-video" class="hidden" playsinline></video>
+  <canvas id="qr-canvas" class="hidden"></canvas>
+
+  <!-- 第三方库（按需 CDN）-->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- 应用脚本 -->
+  <script src="/js/db.js"></script>
+  <script src="/js/camera.js"></script>
+  <script src="/js/qr.js"></script>
+  <script src="/js/p2p.js"></script>
+  <script src="/js/sync.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/sw-register.js"></script>
+</body>
+</html>

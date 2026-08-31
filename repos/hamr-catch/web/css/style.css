@@ -1,0 +1,80 @@
+/* hamr-catch 自定义样式 - Tailwind 之外补充 */
+
+:root {
+  --ink: #0f172a;
+  --accent: #06b6d4;
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: contain;
+}
+
+/* 隐藏滚动条但保留滚动 */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { scrollbar-width: none; }
+
+/* 资产卡片悬浮 */
+.asset-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.asset-card:active {
+  transform: scale(0.98);
+}
+
+/* 缩略图网格 */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 4px;
+}
+.photo-grid img {
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* QR 二维码容器 */
+#qr-display img,
+#qr-display canvas {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+/* 同步日志 */
+#sync-log::-webkit-scrollbar { width: 6px; }
+#sync-log::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+/* 隐藏 number input 上下箭头 */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+
+/* 拍照全屏 */
+.camera-active {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 100;
+}
+.camera-active video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 冲突标识 */
+.has-conflict {
+  border-left: 4px solid #f59e0b;
+}
+
+/* 在线指示 */
+#net-badge.online { background: #16a34a !important; }
+#net-badge.syncing { background: #06b6d4 !important; }
+#net-badge.offline { background: #64748b !important; }
