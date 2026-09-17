@@ -92,3 +92,6 @@ htmlcov/
 scratch/
 
 # Updated by Antigravity on 2026-09-02
+.meta.yaml
+._.DS_Store
+**/._.DS_Store
