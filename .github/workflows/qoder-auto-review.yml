@@ -1,3 +1,7 @@
+# NOTE (2026-08): Placeholder / experimental.  Depends on the third-party
+# `QoderAI/qoder-action@v0` (no `@v4` available).  Inert without
+# `QODER_PERSONAL_ACCESS_TOKEN`.  See `qoder-assistant.yml` for the same
+# caveat.  The repo's own CI is in `ci.yml`.
 name: Qoder Auto Code Review
 
 on:

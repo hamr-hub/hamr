@@ -1,0 +1,65 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Cancel previous runs on the same ref to save CI minutes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------------------------
+  # 1) Markdown syntax & style lint (ADVISORY ONLY)
+  # ---------------------------------------------------------------------
+  # The repo is a free-form knowledge base (projects/, planning/,
+  # execution/) that was populated by hand and by AI.  700+ lint
+  # findings today; running lint as a hard gate would block every PR.
+  # Treated as advisory until a cleanup pass is done.
+  markdownlint:
+    name: markdownlint (advisory)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run markdownlint-cli2
+        uses: DavidAnson/markdownlint-cli2-action@v17
+        with:
+          globs: |
+            **/*.md
+          config: .markdownlint.jsonc
+
+  # ---------------------------------------------------------------------
+  # 2) JSON registry validation (the project registry in
+  #    projects/registry/*.json is the load-bearing data structure)
+  # ---------------------------------------------------------------------
+  json-validate:
+    name: validate project registry JSON
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate registry JSON
+        run: |
+          set -euo pipefail
+          count=0
+          failed=0
+          for f in $(find projects/registry -type f -name '*.json'); do
+            count=$((count + 1))
+            if ! python3 -c "import json,sys; json.load(open('$f'))" ; then
+              echo "::error file=$f::invalid JSON"
+              failed=$((failed + 1))
+            fi
+          done
+          echo "checked=$count failed=$failed"
+          test "$failed" -eq 0
