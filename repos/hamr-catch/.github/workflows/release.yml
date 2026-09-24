@@ -1,0 +1,313 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  # ============ Rust 二进制（多平台）============
+  rust-binary:
+    name: Rust Binary (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            name: macos-x86_64
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            name: macos-arm64
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            name: linux-x86_64
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-latest
+            name: linux-arm64
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            name: windows-x86_64
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install cross-linker (Linux arm64)
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+
+      - name: Configure linker (Linux arm64)
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: |
+          mkdir -p ~/.cargo
+          cat >> ~/.cargo/config.toml <<'EOF'
+          [target.aarch64-unknown-linux-gnu]
+          linker = "aarch64-linux-gnu-gcc"
+          EOF
+
+      - name: Build
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Package
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            cp target/${{ matrix.target }}/release/hamr-catch.exe artifacts/hamr-catch-${{ matrix.name }}.exe
+          else
+            cp target/${{ matrix.target }}/release/hamr-catch artifacts/hamr-catch-${{ matrix.name }}
+            chmod +x artifacts/hamr-catch-${{ matrix.name }}
+          fi
+          ls -lh artifacts/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rust-${{ matrix.name }}
+          path: artifacts/
+
+  # ============ 源码包 ============
+  source-packages:
+    name: Source Packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create tar.gz
+        run: |
+          mkdir -p artifacts
+          tar --exclude='target' --exclude='.git' --exclude='artifacts' \
+              -czf artifacts/hamr-catch-${{ github.ref_name }}-src.tar.gz .
+      - name: Create zip
+        run: |
+          zip -r artifacts/hamr-catch-${{ github.ref_name }}-src.zip . -x 'target/*' '.git/*' 'artifacts/*'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-packages
+          path: artifacts/
+
+  # ============ Android APK（Capacitor）============
+  android-apk:
+    name: Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Capacitor
+        run: |
+          npm init -y > /dev/null
+          npm install --save @capacitor/core @capacitor/cli @capacitor/android 2>&1 | tail -3
+
+      - name: Init Capacitor
+        run: npx cap init "HamR Catch" "com.hamrhub.hamrcatch" --web-dir=web
+
+      - name: Add Android Platform
+        run: npx cap add android || true
+
+      - name: Copy Assets
+        run: npx cap copy android || true
+
+      - name: Fix Kotlin stdlib duplicate classes
+        run: |
+          if [ -f android/app/build.gradle ]; then
+            python3 .github/scripts/fix-kotlin-stdlib.py android/app/build.gradle
+          fi
+
+      - name: Generate Keystore
+        run: |
+          keytool -genkey -v \
+            -keystore android.keystore \
+            -alias androidkey \
+            -keyalg RSA -keysize 2048 \
+            -validity 10000 \
+            -storepass hamrcatch \
+            -keypass hamrcatch \
+            -dname "CN=HamR Catch, OU=HamR, O=HamR Hub, L=Beijing, ST=Beijing, C=CN"
+
+      - name: Build APK
+        working-directory: android
+        run: |
+          chmod +x ./gradlew
+          # 用 Gradle 命令行属性签名（不修改 build.gradle）
+          ./gradlew assembleRelease \
+            -Pandroid.injected.signing.store.file=$(realpath ../android.keystore) \
+            -Pandroid.injected.signing.store.password=hamrcatch \
+            -Pandroid.injected.signing.key.alias=androidkey \
+            -Pandroid.injected.signing.key.password=hamrcatch \
+            2>&1 | tail -30
+
+      - name: Collect APK
+        run: |
+          mkdir -p artifacts
+          find android -name "*.apk" -type f | head -3 | while read apk; do
+            cp "$apk" "artifacts/$(basename $apk)"
+          done
+          ls -lh artifacts/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: artifacts/
+
+  # ============ iOS App（Capacitor + Xcode）============
+  ios-app:
+    name: iOS App
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Select Xcode
+        run: |
+          ls /Applications/ | grep -i xcode | head -3
+          sudo xcode-select --switch /Applications/Xcode.app 2>/dev/null || \
+          sudo xcode-select --switch /Applications/Xcode_15.0.app 2>/dev/null || true
+
+      - name: Setup Capacitor
+        run: |
+          npm init -y > /dev/null
+          npm install --save @capacitor/core @capacitor/cli @capacitor/ios 2>&1 | tail -3
+
+      - name: Init Capacitor
+        run: |
+          npx cap init "HamR Catch" "com.hamrhub.hamrcatch" --web-dir=web
+
+      - name: Add iOS Platform
+        run: |
+          # 跳过默认的 pod install（容易因 deployment target 失败）
+          npx cap add ios || true
+
+      - name: Bump iOS Deployment Target to 14
+        run: |
+          # Capacitor 7+ 需要 iOS 14+，修改 Podfile 与 .pbxproj
+          if [ -f ios/App/Podfile ]; then
+            sed -i '' 's/platform :ios, .*/platform :ios, '"'14.0'"'/' ios/App/Podfile 2>/dev/null || \
+              sed -i 's/platform :ios, .*/platform :ios, "14.0"/' ios/App/Podfile
+            echo "Podfile deployment target updated"
+          fi
+          # 修改所有 xcodeproj 的 IPHONEOS_DEPLOYMENT_TARGET
+          find ios -name "*.pbxproj" -exec sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*;/IPHONEOS_DEPLOYMENT_TARGET = 14.0;/g' {} \; 2>/dev/null || \
+            find ios -name "*.pbxproj" -exec sed -i 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*;/IPHONEOS_DEPLOYMENT_TARGET = 14.0;/g' {} \;
+          echo ".pbxproj deployment target updated"
+
+      - name: Copy Assets
+        run: npx cap copy ios || true
+
+      - name: Pod Install
+        working-directory: ios/App
+        run: pod install 2>&1 | tail -10 || echo "pod install failed but continuing"
+
+      - name: Detect iOS scheme
+        working-directory: ios/App
+        run: |
+          echo "=== Schemes in workspace ==="
+          xcodebuild -workspace App.xcworkspace -list 2>&1 | head -20 || true
+          echo "=== Schemes in project ==="
+          xcodebuild -project App.xcodeproj -list 2>&1 | head -20 || true
+
+      - name: Build iOS App (unsigned)
+        working-directory: ios/App
+        run: |
+          # 自动选 scheme：优先 workspace，其次 project
+          SCHEME=$(xcodebuild -workspace App.xcworkspace -list 2>/dev/null | grep -oE '^\s+App\s*$' | head -1 | tr -d ' ' || echo "")
+          if [ -z "$SCHEME" ]; then
+            SCHEME=$(xcodebuild -project App.xcodeproj -list 2>/dev/null | grep -oE '^\s+App\s*$' | head -1 | tr -d ' ')
+          fi
+          echo "Using scheme: $SCHEME"
+
+          xcodebuild \
+            -workspace App.xcworkspace \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            ONLY_ACTIVE_ARCH=NO \
+            build 2>&1 | tail -20 || \
+          xcodebuild \
+            -project App.xcodeproj \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            ONLY_ACTIVE_ARCH=NO \
+            build 2>&1 | tail -20
+
+      - name: Find .app and package .ipa
+        run: |
+          mkdir -p artifacts
+          APP_PATH=$(find ios/App/build -name "*.app" -type d | head -1)
+          echo "APP_PATH=$APP_PATH"
+          if [ -n "$APP_PATH" ]; then
+            # 复制 .app
+            cp -R "$APP_PATH" artifacts/HamRCatch.app
+            # 创建简单 .ipa（用 zip 重命名）
+            cd artifacts && zip -qr HamRCatch.ipa HamRCatch.app && cd ..
+          fi
+          ls -lh artifacts/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-app
+          path: artifacts/
+
+  # ============ 发布到 GitHub Release ============
+  publish:
+    name: Publish Release
+    needs: [rust-binary, source-packages, android-apk, ios-app]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Generate SHA256SUMS
+        working-directory: artifacts
+        run: |
+          find . -type f -exec sha256sum {} \; > SHA256SUMS
+          cat SHA256SUMS
+
+      - name: Update Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/**/*.tar.gz
+            artifacts/**/*.zip
+            artifacts/**/hamr-catch-*
+            artifacts/**/*.apk
+            artifacts/**/HamRCatch.*
+            artifacts/**/HamRCatch.app
+            artifacts/SHA256SUMS
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

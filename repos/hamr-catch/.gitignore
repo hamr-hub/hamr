@@ -1,18 +1,18 @@
 # Rust
 target/
-**/*.rs.bk
 Cargo.lock.bak
+
+# Releases (二进制太大不入仓)
+release/
 
 # 编辑器
 .vscode/
 .idea/
 *.swp
-*.swo
 
-# 系统文件
+# 系统
 .DS_Store
 Thumbs.db
 
-# 测试产物
+# 测试
 *.log
-test-output/
