@@ -91,4 +91,7 @@ htmlcov/
 .gemini/
 scratch/
 
-# Updated by Antigravity on 2026-07-03
+# Updated by Antigravity on 2026-09-02
+.meta.yaml
+._.DS_Store
+**/._.DS_Store

@@ -22,13 +22,13 @@ fi
 STAGED=$(git diff --cached --name-only 2>/dev/null)
 UNSTAGED=$(git diff --name-only 2>/dev/null)
 UNTRACKED=$(git ls-files --others --exclude-standard 2>/dev/null)
-CHANGED_FILES="${STAGED}${UNSTAGED}${UNTRACKED}"
+CHANGED_FILES=$(printf "%s\n%s\n%s\n" "$STAGED" "$UNSTAGED" "$UNTRACKED" | grep -v '^$' | sort -u)
 
 if [ -z "$CHANGED_FILES" ]; then
   exit 0
 fi
 
-CHANGED_COUNT=$(echo "$CHANGED_FILES" | grep -c . 2>/dev/null || echo 0)
+CHANGED_COUNT=$(printf "%s\n" "$CHANGED_FILES" | wc -l | tr -d ' ')
 DIFF_SUMMARY=$(git diff --stat HEAD 2>/dev/null | tail -1 || echo "")
 if [ -z "$DIFF_SUMMARY" ]; then
   DIFF_SUMMARY=$(git status --short 2>/dev/null | head -10)

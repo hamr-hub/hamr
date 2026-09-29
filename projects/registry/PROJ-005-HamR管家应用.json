@@ -1,12 +1,23 @@
 {
   "id": "PROJ-005",
   "name": "HamR 管家应用 (P2P 本地化)",
-  "status": "in_progress",
+  "status": "active",
   "priority": "high",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-26",
-  "owner": "AI",
-  "tags": ["核心应用", "家庭管理", "P2P", "Web3", "隐私保护", "本地化", "libp2p", "SQLite", "Electron", "React Native"],
+  "owner": "HamR Team",
+  "tags": [
+    "核心应用",
+    "家庭管理",
+    "P2P",
+    "Web3",
+    "隐私保护",
+    "本地化",
+    "libp2p",
+    "SQLite",
+    "Electron",
+    "React Native"
+  ],
   "documents": {
     "project": "projects/active/HamR管家应用-20260305.md",
     "proposal": "planning/proposals/hamr-butler-p2p-architecture-20260318.md",
@@ -25,7 +36,7 @@
     {
       "name": "P2P 同步原型（libp2p）",
       "date": "2026-04-15",
-      "status": "in_progress"
+      "status": "active"
     },
     {
       "name": "Web3 身份认证（DID）",

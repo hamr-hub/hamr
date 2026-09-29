@@ -5,8 +5,14 @@
   "priority": "high",
   "created_date": "2026-03-05",
   "updated_date": "2026-03-18",
-  "owner": "AI",
-  "tags": ["开发者生态", "开源", "Phase1", "Next.js", "自有服务器"],
+  "owner": "HamR Team",
+  "tags": [
+    "开发者生态",
+    "开源",
+    "Phase1",
+    "Next.js",
+    "自有服务器"
+  ],
   "documents": {
     "project": "projects/active/开发者门户-20260305.md",
     "proposal": null,

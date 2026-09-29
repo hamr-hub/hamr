@@ -1,0 +1,76 @@
+# templates/shared/Dockerfile.base
+#
+# HamR Go 服务共用构建模板。
+# 来源：2026-06-30 全家族审计 — Cluster 3/4/5 建议抽取共享 base。
+# 当前覆盖：hamr-account / hamr-api / hamr-status / hamr-deploy /
+#          hamr-jiabu / hamr-mood-calender / hamr-app（dashboard）。
+#
+# 用法（在子项目 Dockerfile 里）:
+#
+#   ARG SERVICE=hamr-api
+#   ARG PORT=8080
+#   FROM hamr-go-base:1.22 AS build
+#   ...
+#   COPY --from=build /out/${SERVICE} /app/${SERVICE}
+#
+# 后续会迁入 hamr-infra/images/hamr-go-base/ 并 CI 自动构建。
+
+ARG GO_VERSION=1.22
+ARG DISTROLESS_TAG=nonroot
+
+# === Stage 1: build ============================================
+FROM golang:${GO_VERSION}-alpine AS build
+WORKDIR /src
+
+# 依赖缓存（go.sum 改了才会重新拉）
+COPY go.mod go.sum* ./
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
+
+# 源码
+COPY . .
+
+# 静态二进制 + 剥离符号
+ARG SERVICE
+ENV SERVICE=${SERVICE}
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+    go build -trimpath -ldflags="-s -w -buildid=" \
+        -o /out/${SERVICE} ./cmd/${SERVICE}
+
+# === Stage 2: runtime ==========================================
+FROM gcr.io/distroless/static-debian12:${DISTROLESS_TAG} AS runtime
+ARG SERVICE
+ARG PORT=8080
+ENV SERVICE=${SERVICE}
+ENV PORT=${PORT}
+
+# CA 证书（如果服务要调 HTTPS）
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+# 二进制
+COPY --from=build /out/${SERVICE} /app/${SERVICE}
+
+# 非 root 用户（distroless nonroot 默认 uid 65532）
+USER 65532:65532
+
+EXPOSE ${PORT}
+
+# 健康检查（distroless 没有 curl/wget，这里用 ENTRYPOINT 直接接
+# 一个 /healthz endpoint；ping/HEALTHCHECK 留给编排平台做）
+ENTRYPOINT ["/app/hamr-api"]
+CMD []
+
+# === LABEL 元数据 ==============================================
+LABEL org.opencontainers.image.title="hamr-${SERVICE}" \
+      org.opencontainers.image.source="https://github.com/hamr-hub/hamr-${SERVICE}" \
+      org.opencontainers.image.licenses="Apache-2.0" \
+      io.hamr.service="${SERVICE}" \
+      io.hamr.port="${PORT}"
+
+# === 已知改进（v0.2 roadmap） ==================================
+# - 加 govulncheck stage
+# - 加 cosign sign step（在 CI）
+# - 加 SLSA provenance attestation
+# - 多架构 (arm64) 支持

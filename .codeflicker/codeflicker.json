@@ -7,7 +7,6 @@
   },
   "directories": {
     "platformDir": ".codeflicker",
-    "snippets": ".codeflicker/snippets",
     "docs": "docs",
     "projects": "projects",
     "templates": "templates"
