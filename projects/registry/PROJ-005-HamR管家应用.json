@@ -4,7 +4,7 @@
   "status": "active",
   "priority": "high",
   "created_date": "2026-03-05",
-  "updated_date": "2026-03-26",
+  "updated_date": "2026-11-17",
   "owner": "HamR Team",
   "tags": [
     "核心应用",
@@ -14,9 +14,8 @@
     "隐私保护",
     "本地化",
     "libp2p",
-    "SQLite",
-    "Electron",
-    "React Native"
+    "PostgreSQL",
+    "React"
   ],
   "documents": {
     "project": "projects/active/HamR管家应用-20260305.md",
@@ -31,28 +30,45 @@
     {
       "name": "架构重构（P2P + Web3）",
       "date": "2026-03-25",
-      "status": "completed"
+      "status": "completed",
+      "completion_date": "2026-03-25"
     },
     {
       "name": "P2P 同步原型（libp2p）",
       "date": "2026-04-15",
-      "status": "active"
+      "status": "completed",
+      "completion_date": "2026-11-17"
     },
     {
       "name": "Web3 身份认证（DID）",
       "date": "2026-04-30",
-      "status": "pending"
+      "status": "completed",
+      "completion_date": "2026-11-17"
     },
     {
-      "name": "桌面端 MVP（Electron）",
+      "name": "数据库设计（五维数据模型）",
+      "date": "2026-05-10",
+      "status": "completed",
+      "completion_date": "2026-11-17"
+    },
+    {
+      "name": "Web 前端 MVP（五维管理界面）",
       "date": "2026-06-30",
-      "status": "pending"
+      "status": "completed",
+      "completion_date": "2026-11-17"
+    },
+    {
+      "name": "Agent 运行时接入",
+      "date": "2026-11-17",
+      "status": "completed",
+      "completion_date": "2026-11-17"
     },
     {
       "name": "移动端 MVP（React Native）",
-      "date": "2026-07-30",
-      "status": "pending"
+      "date": "2026-11-17",
+      "status": "pending",
+      "completion_date": null
     }
   ],
-  "description": "P2P 本地化家庭管理系统。使用 Web3 身份认证（DID），数据完全本地化存储（SQLite），局域网内多设备 P2P 同步（libp2p + GossipSub + mDNS + LWW）。面向 3-5 人家庭场景，核心是隐私保护和数据主权。技术栈：Rust + Axum + SQLite + libp2p + Electron + React Native。年度节省服务器成本 ¥31,200。"
+  "description": "P2P 本地化家庭管理系统（五维：人/时/事/物/境）。Web3 身份认证（DID，鉴权三档 open/shared-secret/did），局域网内多设备 P2P 同步（libp2p + GossipSub + mDNS + LWW + sync_log 幂等去重），Rust + Axum 后端，PostgreSQL 存储，Vite + React 19 Web 前端（五维页面已齐）。2026-11-17 起接入 Agent 运行时（PROJ-019），本项目聚焦数据与同步层。注：早期文档的 SQLite / CRDT / Electron 选型已被实际代码取代，本轮已按 origin/main 修正。"
 }

@@ -1,0 +1,78 @@
+{
+  "id": "PROJ-019",
+  "name": "HamR 管家 Agent 运行时",
+  "status": "active",
+  "priority": "high",
+  "created_date": "2026-11-17",
+  "updated_date": "2026-11-17",
+  "owner": "HamR Team",
+  "tags": [
+    "核心应用",
+    "AI-Agent",
+    "本地优先",
+    "隐私保护",
+    "LLM",
+    "工具调用",
+    "记忆"
+  ],
+  "documents": {
+    "project": "projects/active/HamR管家Agent系统-20261117.md",
+    "roadmap": "planning/roadmaps/HamR-Agent系统-roadmap-2026Q4.md",
+    "proposal": "planning/proposals/hamr-agent-runtime-architecture-20261117.md",
+    "review": null,
+    "sprint": [],
+    "report": [],
+    "retrospective": null
+  },
+  "milestones": [
+    {
+      "name": "架构设计与边界确定",
+      "date": "2026-11-17",
+      "status": "completed",
+      "completion_date": "2026-11-17"
+    },
+    {
+      "name": "Agent 运行时内核",
+      "date": "2026-11-17",
+      "status": "completed",
+      "completion_date": "2026-11-17"
+    },
+    {
+      "name": "HTTP 端点与数据表",
+      "date": "2026-11-17",
+      "status": "completed",
+      "completion_date": "2026-11-17"
+    },
+    {
+      "name": "单元测试通过",
+      "date": "2026-11-17",
+      "status": "completed",
+      "completion_date": "2026-11-17"
+    },
+    {
+      "name": "本地模型端到端联调",
+      "date": "2026-12-05",
+      "status": "in_progress",
+      "completion_date": null
+    },
+    {
+      "name": "前端对话界面",
+      "date": "2026-12-20",
+      "status": "pending",
+      "completion_date": null
+    },
+    {
+      "name": "主动提醒能力",
+      "date": "2027-01-10",
+      "status": "pending",
+      "completion_date": null
+    },
+    {
+      "name": "评测集与回归",
+      "date": "2027-01-31",
+      "status": "pending",
+      "completion_date": null
+    }
+  ],
+  "description": "HamR 管家的 Agent 大脑层，实现在 hamr-app 现有 Rust 后端内（src/agent/ 模块），不新建仓库。本地优先、模型可插拔：单一 LlmProvider trait，本地 Ollama 与云端 OpenAI 兼容 API 共用协议；出网数据默认脱敏（成员姓名一致性替换 + 电话/邮箱/证件号屏蔽）；工具集只读五维数据，family_id 由服务端注入而非模型参数；具备会话记忆与长期记忆。未启用时端点 fail-closed 返回 503。幸福指数量化仍归 JiaBu，Agent 通过 jiabu_score 工具调用。"
+}
