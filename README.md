@@ -18,6 +18,8 @@ hamr/
 │   ├── sprints/       # 迭代/冲刺记录
 │   ├── retrospectives/ # 回顾会议记录
 │   └── reports/       # 进度报告
+├── repos/             # 子项目仓库（git submodule）
+├── scripts/           # 知识库自动化检查与修复脚本
 ├── templates/         # 文档模板
 └── resources/         # 参考资料
 ```
@@ -56,6 +58,42 @@ cp templates/sprint-template.md execution/sprints/sprint-NN.md
 - 使用中文编写，保持格式统一
 - 完成的项目及时归档到 `archived/`
 
+## 🔍 自动化检查
+
+知识库的规范（见 `AGENTS.md`《文档质量检查清单》）已经做成可执行检查，
+不再依赖人工记忆：
+
+```bash
+# 一致性检查（注册表格式 / ID 唯一性 / 文档路径 / MD↔JSON 状态 /
+#             updated_date / 子模块指针新鲜度）
+python3 scripts/check-kb-consistency.py
+
+# 元信息修复（把残留的模板 front matter 换成规范元信息，
+#             并以注册表 JSON 为准同步状态 / 负责人 / 优先级）
+python3 scripts/repair-kb-metadata.py --dry-run   # 先看会改什么
+python3 scripts/repair-kb-metadata.py             # 确认后执行
+```
+
+两项检查都已接入 CI（`.github/workflows/kb-consistency.yml`）。
+
+### 关于子模块指针
+
+`repos/` 下的 14 个子仓库以 git submodule 形式挂载。**指针长期不更新会让
+"仓库里看到的代码"与上游实际代码相差数月**，任何基于仓库现状的分析结论
+都会失真 —— 2026-10-20 的全面审计正是因此差点重做上游已经修好的工作。
+
+因此：
+
+- 审计与分析一律以各子仓库的 `origin/main` 为准；
+- 指针落后 `origin/main` 超过 20 个提交，一致性检查会直接失败；
+- 同步指针的常规操作：
+
+```bash
+git submodule update --init --recursive
+for d in repos/hamr-*; do git -C "$d" fetch origin && git -C "$d" checkout -B main origin/main; done
+git add repos/ && git commit -m "chore(submodules): bump pointers"
+```
+
 ## 🔧 工具集成
 
 本知识库可与以下工具配合使用：
@@ -65,4 +103,4 @@ cp templates/sprint-template.md execution/sprints/sprint-NN.md
 
 ---
 
-最后更新：2026-03-04
+最后更新：2026-10-20

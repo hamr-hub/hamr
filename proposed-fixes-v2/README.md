@@ -1,10 +1,58 @@
-# proposed-fixes-v2/ — 真实 P0 patches (2026-07-01 round 2)
+# proposed-fixes-v2/ — P0 patches（2026-07-01 round 2）
 
 > 基于 round 2 真实文件扫描（submodule 全部 init 后）。
 > **全部 file:line 已 `Read` 验证**，可直接 apply。
 > round 1 的 `proposed-fixes-deprecated-20260630/` 已存档，**不要** 用。
 
-## 文件清单
+> ## ⚠️ 2026-10-20 复核：本目录的 10 条 P0 已有 5 条被上游修复、2 条已过时
+>
+> 本目录的补丁是按 **2026-07-03 的代码**写的。此后各子仓库的 `origin/main`
+> 推进到 2026-09-02（每个落后 18～26 个提交），部分补丁所描述的问题
+> **在上游已经修好了**。直接照本目录 apply 会重做上游的工作，甚至做出
+> 冲突的改动。
+>
+> **以 `.iter-skill/runs/2026-10-20/00-master-synthesis.md` 的逐条复核结论
+> 为准**，本目录保留作历史记录与背景参考。
+
+## 复核状态（2026-10-20）
+
+| Patch | 子项目 | 原始严重度 | 复核结论 | 处理 |
+|-------|--------|-----------|---------|------|
+| 01 | hamr-app | blocker | ⚪ **已过时** —— `middleware.rs` 已是真 JWT 校验 | 上游 `a54528b` 三模式认证硬化，本轮不需要 |
+| 02 | hamr-api | blocker | ✅ **上游已修** —— CORS 白名单 | 上游 `1042941`，本轮不需要 |
+| 03 | hamr-api | blocker | ✅ **上游已修** —— 限流键 | 上游 `89d44fb`，本轮不需要 |
+| 04 | hamr-status | blocker | 🔴 **仍成立** | **本轮已修**：确定性渲染 + 9 项验证 |
+| 05 | hamr-browser | blocker | 🔴 **仍成立** | **本轮已修**：全局 Bearer 鉴权（fail-closed）+ 14 项测试 |
+| 06 | hamr-browser | blocker | 🔴 **仍成立**（但成因与原文描述不同，见下） | **本轮已修**：锁内原子化 + 上下文身份校验 |
+| 07 | hamr-browser | blocker | ⚪ **不适用** —— 代码里没有 upload 端点 | 无需处理 |
+| 08 | hamr-infra | blocker | 🔴 **仍成立** | **本轮已修**：端口单一真源 + 一致性检查 + CI 门禁 |
+| 09 | hamr-infra | blocker | 🟡 **部分成立** | **本轮未改**：方向依赖真实部署，已记录并给核对方法 |
+| 10 | hamr-account | blocker | ✅ **上游已修** —— SHA-256 索引查询 | 上游 `ec01fdf` + `20260310000002_refresh_token_index.sql` |
+
+### 关于 #06 的技术更正
+
+原文描述的"并发双启动"在当前代码里**复现不出来**：`initialize()` 内部已有
+锁内二次检查，足以阻止重复启动。真实存在的是三个别的缺陷：
+
+1. `_ensure_healthy()` 在**锁外**写 `_initialized`（共享状态的锁外写入）；
+2. `restart()` 锁内清理、**锁外**调用 `initialize()` —— 并发的
+   `_ensure_healthy()` 抢先启动浏览器，restart 自己的 `initialize()` 看到
+   `_initialized=True` 直接返回，**restart 悄悄退化成「不重启」**；
+3. `_on_context_close` 不校验上下文身份 —— 旧上下文的**延迟** close 事件
+   会把新上下文的状态一起清空。
+
+### 关于 #09 的处置说明
+
+`status.hamr.top` 的 DNS 指向 `39.103.188.33`，而 nginx 该站点需要的
+`grafana` 与 `hamr-status` 两个容器**只有 `services/proxy/` 同时具备**。
+同时 `services/ali/` 与 `services/tx/` 的目录名相对真实主机是**反的**
+（`services/ali/` 里装的是 DNS 指向 `43.133.224.11` 的 hamr.store 系服务）。
+
+改 A 记录的方向取决于真实部署情况，**改错会直接打挂状态页**，因此本轮
+只记录事实并给出核对方法，不擅改 DNS。详见 `hamr-infra/README.md`
+的「部署拓扑与一个待确认项」。
+
+## 原 round 2 文件清单
 
 ### P0 ship-blocker (10 项)
 
@@ -21,15 +69,8 @@
 | 09 | hamr-infra | blocker | `09-hamr-infra-dns-mispoint.md` |
 | 10 | hamr-account | blocker | `10-hamr-account-refresh-dos.md` |
 
-### P1 (5 项)
-
-| Patch | 子项目 | 严重度 | 文件 |
-|-------|--------|--------|------|
-| 11 | hamr-website | high | `11-hamr-website-bundle-warning.md` |
-| 12 | 7 TS repos | high | `12-ts-shared-dockerfile-nginx.md` |
-| 13 | hamr-mood-calender | medium | `13-hamr-mood-calender-dead-type.md` |
-| 14 | 5 Rust repos | high | `14-rust-shared-crate.md` |
-| 15 | hamr-developer | high | `15-hamr-developer-committed-dist.md` |
+> 原 README 还列了 P1 的 11～15 号补丁，但这些文件从未产出到仓库里 ——
+> 属于 round 2 未完成的遗留登记。
 
 ## 与 round 1 报告的对比
 

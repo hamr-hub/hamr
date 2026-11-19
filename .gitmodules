@@ -40,3 +40,6 @@
 [submodule "repos/hamr-mood-calender"]
 	path = repos/hamr-mood-calender
 	url = git@github.com:hamr-hub/hamr-mood-calender.git
+[submodule "repos/hamr-catch"]
+	path = repos/hamr-catch
+	url = https://github.com/hamr-hub/hamr-catch.git

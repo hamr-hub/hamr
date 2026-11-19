@@ -4,42 +4,69 @@
   "status": "active",
   "priority": "high",
   "created_date": "2026-06-30",
-  "updated_date": "2026-06-30",
+  "updated_date": "2026-10-20",
   "owner": "HamR Team",
-  "tags": ["v0.2", "enhancement", "audit", "cross-repo", "P0-fixes"],
-  "description": "基于 6 个并行 deep-research agent 对 14 个子项目 + 跨切基础设施的审计结果，集中登记 v0.1 → v0.2 阶段必须修的 13 个 P0 信任/可用性缺陷、4 个架构决策项、7 个跨切 P1 抽取工作。源报告见 .iter-skill/runs/2026-06-30/。",
+  "tags": [
+    "v0.2",
+    "enhancement",
+    "audit",
+    "cross-repo",
+    "P0-fixes",
+    "round-3"
+  ],
+  "description": "跨仓库的 v0.1 → v0.2 增强登记。三轮全家族审计（2026-06-30 / 2026-07-01 / 2026-10-20）累积登记的信任/可用性缺陷、架构决策项与跨切抽取工作。2026-10-20 第三轮首次真正执行构建与测试，发现三项「根本编译不过」的阻塞缺陷，并确认 Round 2 的 10 条 P0 中有 5 条已在上游修复、5 条仍成立、2 条已过时。",
   "documents": {
     "project": "projects/active/HamR-v0.2增强-20260630.md",
     "synthesis": ".iter-skill/runs/2026-06-30/00-master-synthesis.md",
-    "reports_dir": ".iter-skill/runs/2026-06-30/",
+    "reports_dir": ".iter-skill/runs/",
     "proposal": "planning/proposals/v0.2-enhancements-20260630.md",
     "roadmap": "planning/roadmaps/v0.2-roadmap-2026Q3.md"
   },
   "milestones": [
     {
-      "name": "P0 信任缺陷修复（13 项）",
-      "date": "2026-07-15",
+      "name": "现状对齐：15 个子仓库同步到 origin/main，P0 逐条复核",
+      "date": "2026-10-20",
+      "status": "completed",
+      "completion_date": "2026-10-20"
+    },
+    {
+      "name": "阻塞清零：hamr-api / hamr-account / hamr-website 编译失败修复",
+      "date": "2026-10-20",
+      "status": "completed",
+      "completion_date": "2026-10-20",
+      "note": "三项编译阻塞在上游 2026-09-01 iter-skill 轮次中已修复"
+    },
+    {
+      "name": "仍成立的 P0 修复并推送（status / browser / infra）",
+      "date": "2026-10-20",
+      "status": "completed",
+      "completion_date": "2026-10-20"
+    },
+    {
+      "name": "跨切契约治理：端口单一真源 + 一致性检查 + CI 门禁",
+      "date": "2026-10-20",
+      "status": "completed",
+      "completion_date": "2026-10-20"
+    },
+    {
+      "name": "CI 门禁铺开到剩余仓库（status / website / help / developer / deploy）",
+      "date": "2026-11-30",
+      "status": "pending"
+    },
+    {
+      "name": "DNS 指向与部署拓扑登机核对定案",
+      "date": "2026-12-15",
       "status": "pending",
-      "blocking_reason": "submodule .git 缺失需先修复"
+      "blocking_reason": "改错方向会打挂状态页，需先核对真实部署情况"
     },
     {
-      "name": "架构决策 D-1/D-2 拍板（hamr-app 改名 / hamr-browser 拆名）",
-      "date": "2026-07-08",
+      "name": "全家族 Prometheus 指标命名与标签统一",
+      "date": "2026-12-15",
       "status": "pending"
     },
     {
-      "name": "跨切抽取 X-1..X-7 落地（pkg-hamr / astro-config / Dockerfile.base / nginx-hardened / helm-common / CI / notifier）",
-      "date": "2026-08-15",
-      "status": "pending"
-    },
-    {
-      "name": "全家族 Prometheus metrics emit（http_requests_total{service=...}）",
-      "date": "2026-08-30",
-      "status": "pending"
-    },
-    {
-      "name": "v0.2 验收 + 全家族 e2e 测试",
-      "date": "2026-09-30",
+      "name": "v0.2 复盘与项目归档",
+      "date": "2026-12-31",
       "status": "pending"
     }
   ],
@@ -47,11 +74,19 @@
   "architecture_decisions_count": 4,
   "cross_cutting_count": 7,
   "subprojects_affected": [
-    "hamr-website", "hamr-docs", "hamr-help",
-    "hamr-browser", "hamr-demo",
-    "hamr-account", "hamr-api", "hamr-status",
-    "hamr-deploy", "hamr-jiabu", "hamr-mood-calender",
+    "hamr-website",
+    "hamr-docs",
+    "hamr-help",
+    "hamr-browser",
+    "hamr-demo",
+    "hamr-account",
+    "hamr-api",
+    "hamr-status",
+    "hamr-deploy",
+    "hamr-jiabu",
+    "hamr-mood-calender",
     "hamr-app",
-    "hamr-developer", "hamr-infra"
+    "hamr-developer",
+    "hamr-infra"
   ]
 }

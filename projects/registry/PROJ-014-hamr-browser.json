@@ -4,9 +4,15 @@
   "status": "active",
   "priority": "high",
   "created_date": "2026-03-17",
-  "updated_date": "2026-03-26",
+  "updated_date": "2026-10-20",
   "owner": "HamR Team",
-  "tags": ["浏览器自动化", "Playwright", "API服务", "Python", "FastAPI"],
+  "tags": [
+    "浏览器自动化",
+    "Playwright",
+    "API服务",
+    "Python",
+    "FastAPI"
+  ],
   "documents": {
     "project": "projects/active/hamr-browser-20260317.md",
     "proposal": "planning/proposals/hamr-browser-技术方案-20260317.md",

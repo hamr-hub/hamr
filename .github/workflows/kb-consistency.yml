@@ -1,0 +1,42 @@
+# 知识库一致性门禁
+#
+# 背景：2026-10-20 的全面审计发现 26 项知识库一致性问题（文档残留模板
+# front matter、Markdown 与 JSON 状态冲突、项目 ID 重复、文档路径断链、
+# updated_date 过期），以及一个更隐蔽的问题 —— **子模块指针长期不更新**，
+# 导致任何基于仓库现状的分析都建立在三个月前的代码上。
+#
+# `scripts/check-kb-consistency.py` 把 AGENTS.md《文档质量检查清单》里
+# 可自动化的部分变成可执行检查：
+#   - JSON 注册表格式、必填字段、枚举值、日期格式
+#   - 项目 ID 唯一性
+#   - documents.* 指向的文件真实存在
+#   - Markdown 与 JSON 的状态/负责人/优先级一致性
+#   - updated_date 与文档最后修改时间的关系
+#   - 子模块指针相对 origin/main 的新鲜度（落后 > 20 个提交即失败）
+
+name: kb-consistency
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: knowledge base consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check knowledge base consistency
+        run: python3 scripts/check-kb-consistency.py

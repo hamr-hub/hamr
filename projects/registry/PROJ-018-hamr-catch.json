@@ -1,12 +1,19 @@
 {
-  "id": "PROJ-016",
+  "id": "PROJ-018",
   "name": "hamr-catch 家庭资产盘点 P2P 平台",
   "status": "active",
   "priority": "medium",
   "created_date": "2026-08-31",
-  "updated_date": "2026-08-31",
+  "updated_date": "2026-10-20",
   "owner": "HamR 团队",
-  "tags": ["PWA", "WebRTC", "P2P", "家庭", "离线优先", "Rust"],
+  "tags": [
+    "PWA",
+    "WebRTC",
+    "P2P",
+    "家庭",
+    "离线优先",
+    "Rust"
+  ],
   "description": "纯局域网 P2P 家庭资产盘点平台，无公网服务器，数据完全本地化，设备通过 WebRTC 直连同步。",
   "documents": {
     "project": "projects/active/hamr-catch-20260831.md",

@@ -1,3 +1,12 @@
+---
+标题: HamR v0.2 增强（基于 2026-06-30 全家族 deep-research）
+创建时间: 2026-06-30
+负责人: HamR Team
+状态: 🟢 进行中
+优先级: P1（高）
+标签: #v0.2 #enhancement #audit #cross-repo #P0-fixes
+---
+
 # HamR v0.2 增强（2026-06-30 全家族审计）
 
 | 项目信息 | 内容 |
@@ -11,6 +20,25 @@
 | **标签** | #v0.2 #enhancement #audit #cross-repo |
 
 ## 项目背景
+
+> ## ⚠️ 2026-10-20 第三轮复核：本文档的 P0 清单已过时
+>
+> 下面的 P0 清单来自 **2026-06-30 round 1**。那一轮 submodule 尚未初始化，
+> 扫的是陈旧缓存，**多数 file:line 指向不存在的文件**（详见
+> `proposed-fixes-deprecated-20260630/README.md` 的对照表）。
+>
+> 2026-10-20 第三轮在**真正执行构建与测试**并把全部子仓库同步到
+> `origin/main` 之后重新复核，结论见：
+>
+> - 复核报告：`.iter-skill/runs/2026-10-20/00-master-synthesis.md`
+> - 技术方案：[planning/proposals/v0.2-enhancements-20260630.md](../../planning/proposals/v0.2-enhancements-20260630.md)
+> - 路线图：[planning/roadmaps/v0.2-roadmap-2026Q3.md](../../planning/roadmaps/v0.2-roadmap-2026Q3.md)
+> - 逐条复核表：`proposed-fixes-v2/README.md`
+>
+> 复核结论摘要：Round 2 的 10 条 P0 中 **5 条上游已修、5 条仍成立（本轮已修
+> 5 条中的 4 条）、2 条已过时**；另新发现 3 个仓库**根本编译不过**。
+> 本文档下方的 P0 清单仅作历史记录，**不再作为待办依据**。
+
 
 2026-06-30 `/loop 5h` 第一轮触发，6 个 deep-research agent 并行审计了 14 个 v0.1 子项目 + 跨切基础设施。审计报告位于 `.iter-skill/runs/2026-06-30/`：
 
@@ -151,19 +179,26 @@
 
 ## 不在本项目范围
 
-- 子项目实际代码修改（submodule `.git/` 缺失，待修复）
-- 真机/线上验证
+- ~~子项目实际代码修改（submodule `.git/` 缺失，待修复）~~ ——
+  submodule 已于 2026-09 全部可用；2026-10-20 第三轮**已实际修改并推送**
+  hamr-status / hamr-browser / hamr-infra / hamr-jiabu / hamr-api 五个仓库
+- 真机/线上验证 —— 本轮按约定**只改仓库配置，不动线上服务器**；
+  DNS 指向的核对列为路线图阶段 D 的待办
 - 新功能开发（仅修复 v0.1 缺陷 + 抽取）
 - 跨子项目 PR 同步
 
 ## 相关文档
 
-- `.iter-skill/runs/2026-06-30/` — 本轮全部报告
-- `.iter-skill/runs/2026-06-30/00-master-synthesis.md` — 跨集群合成
-- `.claude/rules/02-documentation-standards.md` — 注册表状态枚举（已反映本次修复）
+- `.iter-skill/runs/2026-10-20/00-master-synthesis.md` — **第三轮复核报告（当前有效）**
+- `.iter-skill/runs/2026-07-01/` — 第二轮报告
+- `.iter-skill/runs/2026-06-30/` — 第一轮报告（⚠️ 已降级，file:line 多不可用）
+- `proposed-fixes-v2/` — 第二轮补丁集（顶部附 2026-10-20 复核结论）
+- `proposed-fixes-deprecated-20260630/` — 第一轮补丁集（**不要使用**）
+- [planning/proposals/v0.2-enhancements-20260630.md](../../planning/proposals/v0.2-enhancements-20260630.md) — 技术方案
+- [planning/roadmaps/v0.2-roadmap-2026Q3.md](../../planning/roadmaps/v0.2-roadmap-2026Q3.md) — 路线图
 
 ---
 
-**最后更新**：2026-06-30
+**最后更新**：2026-10-20
 **维护者**：HamR Team
-**版本**：v0.2-enhancement-r1
+**版本**：v0.2-enhancement-r3
