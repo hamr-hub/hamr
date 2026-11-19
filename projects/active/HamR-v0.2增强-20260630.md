@@ -43,16 +43,18 @@
 >
 > 报告：`.iter-skill/runs/2026-11-19/00-ci-gates-and-pointer-audit.md`
 >
-> - **C1 / C2 完成**：hamr-status（`776aca6`，lint + 确定性回归 + build）、
->   hamr-website（`5d5a82f`，lint + build）接入 CI，本地三步/两步验证全绿；
->   子仓库提交待网络恢复后推送。
+> - **C1–C5 全部完成**：五个排期仓库接入 CI —— hamr-status（`776aca6`，
+>   lint + 确定性回归 + build）、hamr-website（`5d5a82f`）、hamr-help
+>   （`11e6a3d`）、hamr-developer（`341ac71`）、hamr-deploy（`3ab1aee`，
+>   顺带补齐从未提交、且 resolved 已改为公共 registry 的 lockfile）；
+>   本地 lint/build 全部验证通过，子仓库提交待网络恢复后推送。
 > - **C8 加固**：一致性检查器原先比对子模块**工作区 HEAD**，存在盲点 ——
 >   hamr-mood-calender 工作区已在新提交、索引指针却落后 1 个提交，旧检查器
 >   漏报。改为比对超级项目**索引记录的 gitlink**（CI/克隆实际拿到的提交），
 >   并新增「工作区↔索引漂移」「指针领先上游（疑似未推送）」两项告警。
 > - mood-calender 指针 bump 到已在上游的 `1b07572`（CI lockfile 修复）。
-> - 截至本日，15 个子仓库中 10 个已有 `ci.yml`；剩余 help / developer /
->   deploy / demo 无门禁（deploy 需先提交未跟踪的 `package-lock.json`）。
+> - 截至本日，15 个子仓库中 13 个已有 `ci.yml`；剩余 demo 未排期、
+>   hamr-catch 为固定 v0.1.0 tag 的 release workflow。
 
 
 2026-06-30 `/loop 5h` 第一轮触发，6 个 deep-research agent 并行审计了 14 个 v0.1 子项目 + 跨切基础设施。审计报告位于 `.iter-skill/runs/2026-06-30/`：

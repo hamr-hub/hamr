@@ -52,8 +52,9 @@
     {
       "name": "CI 门禁铺开到剩余仓库（status / website / help / developer / deploy）",
       "date": "2026-11-30",
-      "status": "in_progress",
-      "note": "2026-11-19：status（776aca6）与 website（5d5a82f）已接入，待网络恢复后推送；help / developer / deploy 待推进，deploy 需先提交 package-lock.json"
+      "status": "completed",
+      "completion_date": "2026-11-19",
+      "note": "五仓库全部接入：status 776aca6、website 5d5a82f、help 11e6a3d、developer 341ac71、deploy 3ab1aee（含补齐 package-lock.json）。本地 lint/build 均验证通过；子仓库提交待网络恢复后推送，随后 M3 以 GitHub 绿灯为准关闭"
     },
     {
       "name": "DNS 指向与部署拓扑登机核对定案",
