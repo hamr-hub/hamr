@@ -7,6 +7,8 @@
 - documents.* 路径真实存在
 - Markdown 与 JSON 的状态/名称一致
 - updated_date 与文件最后修改时间的关系
+- 子模块**索引指针**相对 origin/main 的新鲜度（落后 > 20 提交即失败），
+  以及工作区↔索引漂移、指针领先上游（疑似子仓库提交未推送）
 
 用法: python3 scripts/check-kb-consistency.py
 退出码: 0 = 全部通过, 1 = 存在 FAIL
@@ -47,6 +49,19 @@ def fail(msg: str) -> None:
 
 def warn(msg: str) -> None:
     warnings.append(msg)
+
+
+def git_output(args: list[str], cwd: Path) -> str | None:
+    """运行只读 git 命令，返回去空白后的 stdout；失败返回 None。"""
+    try:
+        result = subprocess.run(
+            ["git", *args], cwd=str(cwd), capture_output=True, text=True, timeout=30
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if result.returncode != 0:
+        return None
+    return result.stdout.strip()
 
 
 TABLE_KEY_MAP = {
@@ -261,38 +276,60 @@ def main() -> int:
             if not (sm / ".git").exists():
                 fail(f"子模块 {rel} 未初始化（缺少 .git）")
                 continue
-            try:
-                head = subprocess.run(
-                    ["git", "-C", str(sm), "rev-parse", "HEAD"],
-                    capture_output=True, text=True, timeout=30,
-                ).stdout.strip()
-                upstream = subprocess.run(
-                    ["git", "-C", str(sm), "rev-parse", "origin/main"],
-                    capture_output=True, text=True, timeout=30,
-                ).stdout.strip()
-            except (OSError, subprocess.SubprocessError) as exc:
-                warn(f"子模块 {rel}: 无法读取 git 状态 — {exc}")
+
+            # 比对对象必须是索引记录的 gitlink SHA（CI 全新 checkout、他人 clone
+            # 实际拿到的提交），而不是子模块工作区当前的 HEAD —— 后者可能已被
+            # 手动切到新提交却忘记 git add 回超级项目（2026-11-19 在
+            # hamr-mood-calender 上实际发生，旧版检查器因此漏报）。
+            recorded_sha = ""
+            ls = git_output(["ls-files", "-s", rel], ROOT)
+            if ls:
+                parts = ls.split()
+                if len(parts) >= 2 and parts[0] == "160000":
+                    recorded_sha = parts[1]
+
+            worktree_head = git_output(["rev-parse", "HEAD"], sm)
+            upstream = git_output(["rev-parse", "origin/main"], sm)
+
+            if not upstream:
+                warn(f"子模块 {rel}: 缺少 origin/main，跳过新鲜度检查")
                 continue
-            if not head or not upstream:
-                warn(f"子模块 {rel}: 缺少 HEAD 或 origin/main，跳过新鲜度检查")
+            if not recorded_sha:
+                warn(f"子模块 {rel}: 超级项目索引中无 gitlink 记录，跳过")
                 continue
-            if head == upstream:
-                continue
-            lag = subprocess.run(
-                ["git", "-C", str(sm), "rev-list", "--count", f"{head}..{upstream}"],
-                capture_output=True, text=True, timeout=30,
-            ).stdout.strip()
-            try:
-                lag_n = int(lag)
-            except ValueError:
-                continue
-            if lag_n > max_lag:
+
+            # 工作区 ↔ 索引漂移：本地 checkout 了别的提交，可能忘记 bump 指针
+            if worktree_head and worktree_head != recorded_sha:
+                warn(
+                    f"子模块 {rel}: 工作区 HEAD {worktree_head[:7]} 与索引记录的指针 "
+                    f"{recorded_sha[:7]} 不一致 —— 若要更新指针请 `git add {rel}`"
+                )
+
+            if recorded_sha == upstream:
+                lag, ahead = 0, 0
+            else:
+                behind_s = git_output(["rev-list", "--count", f"{recorded_sha}..{upstream}"], sm)
+                ahead_s = git_output(["rev-list", "--count", f"{upstream}..{recorded_sha}"], sm)
+                if behind_s is None or ahead_s is None:
+                    warn(f"子模块 {rel}: 无法比较索引指针与 origin/main（记录 {recorded_sha[:7]}）")
+                    continue
+                lag, ahead = int(behind_s), int(ahead_s)
+
+            if lag > max_lag:
                 fail(
-                    f"子模块 {rel}: 指针落后 origin/main {lag_n} 个提交"
+                    f"子模块 {rel}: 索引指针落后 origin/main {lag} 个提交"
                     f"（阈值 {max_lag}）—— 请同步并 bump 指针"
                 )
-            elif lag_n > 0:
-                notes.append(f"子模块 {rel}: 指针落后 origin/main {lag_n} 个提交")
+            elif lag > 0:
+                notes.append(f"子模块 {rel}: 索引指针落后 origin/main {lag} 个提交")
+
+            # 指针领先上游 = 子仓库本地提交尚未推送；此时超级项目若已推送，
+            # 他人 clone 会因取不到该 gitlink 对象而失败。
+            if ahead > 0:
+                warn(
+                    f"子模块 {rel}: 索引指针领先 origin/main {ahead} 个提交 —— "
+                    f"疑似子仓库本地提交尚未推送；请先推送子仓库，再推送超级项目"
+                )
 
     # ---------- 输出 ----------
     print("=" * 68)

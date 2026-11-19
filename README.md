@@ -78,19 +78,25 @@ python3 scripts/repair-kb-metadata.py             # 确认后执行
 
 ### 关于子模块指针
 
-`repos/` 下的 14 个子仓库以 git submodule 形式挂载。**指针长期不更新会让
+`repos/` 下的 15 个子仓库以 git submodule 形式挂载（其中 hamr-catch
+固定在 `v0.1.0` tag，其余跟随 `main`）。**指针长期不更新会让
 "仓库里看到的代码"与上游实际代码相差数月**，任何基于仓库现状的分析结论
 都会失真 —— 2026-10-20 的全面审计正是因此差点重做上游已经修好的工作。
 
 因此：
 
 - 审计与分析一律以各子仓库的 `origin/main` 为准；
-- 指针落后 `origin/main` 超过 20 个提交，一致性检查会直接失败；
-- 同步指针的常规操作：
+- 一致性检查比对的是**超级项目索引记录的 gitlink 指针**：落后
+  `origin/main` 超过 20 个提交直接失败；工作区 HEAD 与索引漂移、
+  或指针领先上游（疑似子仓库提交未推送）会告警；
+- 同步指针的常规操作（排除固定 tag 的 hamr-catch）：
 
 ```bash
 git submodule update --init --recursive
-for d in repos/hamr-*; do git -C "$d" fetch origin && git -C "$d" checkout -B main origin/main; done
+for d in repos/hamr-*; do
+  [ "$(basename "$d")" = "hamr-catch" ] && continue
+  git -C "$d" fetch origin && git -C "$d" checkout -B main origin/main
+done
 git add repos/ && git commit -m "chore(submodules): bump pointers"
 ```
 

@@ -39,6 +39,21 @@
 > 5 条中的 4 条）、2 条已过时**；另新发现 3 个仓库**根本编译不过**。
 > 本文档下方的 P0 清单仅作历史记录，**不再作为待办依据**。
 
+> ## 📌 2026-11-19 第四轮进展：阶段 C 门禁推进
+>
+> 报告：`.iter-skill/runs/2026-11-19/00-ci-gates-and-pointer-audit.md`
+>
+> - **C1 / C2 完成**：hamr-status（`776aca6`，lint + 确定性回归 + build）、
+>   hamr-website（`5d5a82f`，lint + build）接入 CI，本地三步/两步验证全绿；
+>   子仓库提交待网络恢复后推送。
+> - **C8 加固**：一致性检查器原先比对子模块**工作区 HEAD**，存在盲点 ——
+>   hamr-mood-calender 工作区已在新提交、索引指针却落后 1 个提交，旧检查器
+>   漏报。改为比对超级项目**索引记录的 gitlink**（CI/克隆实际拿到的提交），
+>   并新增「工作区↔索引漂移」「指针领先上游（疑似未推送）」两项告警。
+> - mood-calender 指针 bump 到已在上游的 `1b07572`（CI lockfile 修复）。
+> - 截至本日，15 个子仓库中 10 个已有 `ci.yml`；剩余 help / developer /
+>   deploy / demo 无门禁（deploy 需先提交未跟踪的 `package-lock.json`）。
+
 
 2026-06-30 `/loop 5h` 第一轮触发，6 个 deep-research agent 并行审计了 14 个 v0.1 子项目 + 跨切基础设施。审计报告位于 `.iter-skill/runs/2026-06-30/`：
 
@@ -189,7 +204,8 @@
 
 ## 相关文档
 
-- `.iter-skill/runs/2026-10-20/00-master-synthesis.md` — **第三轮复核报告（当前有效）**
+- `.iter-skill/runs/2026-11-19/00-ci-gates-and-pointer-audit.md` — **第四轮报告（阶段 C 门禁推进，当前最新）**
+- `.iter-skill/runs/2026-10-20/00-master-synthesis.md` — 第三轮复核报告
 - `.iter-skill/runs/2026-07-01/` — 第二轮报告
 - `.iter-skill/runs/2026-06-30/` — 第一轮报告（⚠️ 已降级，file:line 多不可用）
 - `proposed-fixes-v2/` — 第二轮补丁集（顶部附 2026-10-20 复核结论）
@@ -199,6 +215,6 @@
 
 ---
 
-**最后更新**：2026-10-20
+**最后更新**：2026-11-19
 **维护者**：HamR Team
-**版本**：v0.2-enhancement-r3
+**版本**：v0.2-enhancement-r4
