@@ -29,7 +29,7 @@
       "planning/proposals/家庭版Agent架构设计-20261120.md"
     ],
     "review": null,
-    "sprint": [],
+    "sprint": ["execution/sprints/sprint-01-20261120.md"],
     "report": [],
     "retrospective": null
   },
@@ -71,10 +71,11 @@
       "completion_date": "2026-11-20"
     },
     {
-      "name": "本地模型端到端联调",
+      "name": "真实模型端到端联调",
       "date": "2026-12-05",
-      "status": "in_progress",
-      "completion_date": null
+      "status": "pending",
+      "completion_date": null,
+      "blocking_reason": "当前环境不运行真实模型，不自动转云端；等待另行授权的验收环境。模拟协议回归不替代真实推理质量验收。"
     },
     {
       "name": "前端对话界面",

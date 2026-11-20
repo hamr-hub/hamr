@@ -4,7 +4,7 @@
   "status": "active",
   "priority": "high",
   "created_date": "2026-06-30",
-  "updated_date": "2026-11-19",
+  "updated_date": "2026-11-20",
   "owner": "HamR Team",
   "tags": [
     "v0.2",
@@ -21,7 +21,8 @@
     "synthesis": ".iter-skill/runs/2026-06-30/00-master-synthesis.md",
     "reports_dir": ".iter-skill/runs/",
     "proposal": "planning/proposals/v0.2-enhancements-20260630.md",
-    "roadmap": "planning/roadmaps/v0.2-roadmap-2026Q3.md"
+    "roadmap": "planning/roadmaps/v0.2-roadmap-2026Q3.md",
+    "sprint": ["execution/sprints/sprint-01-20261120.md"]
   },
   "milestones": [
     {

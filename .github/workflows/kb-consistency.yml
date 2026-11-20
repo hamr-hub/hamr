@@ -13,6 +13,8 @@
 #   - Markdown 与 JSON 的状态/负责人/优先级一致性
 #   - updated_date 与文档最后修改时间的关系
 #   - 子模块指针相对 origin/main 的新鲜度（落后 > 20 个提交即失败）
+# `scripts/check-port-consistency.sh` 要求五个后端的 PORT 声明齐备，
+# 再调用当前 checkout 的 hamr-infra 检查器校验端口契约。
 
 name: kb-consistency
 
@@ -38,5 +40,11 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Test consistency checks
+        run: python3 -B -m unittest discover -s scripts
+
       - name: Check knowledge base consistency
         run: python3 scripts/check-kb-consistency.py
+
+      - name: Check pinned port contract
+        run: bash scripts/check-port-consistency.sh

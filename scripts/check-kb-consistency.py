@@ -4,9 +4,10 @@
 验证 AGENTS.md「文档质量检查清单」中的可自动化项：
 - JSON 注册表格式可解析、必填字段完整
 - 项目 ID 唯一
-- documents.* 路径真实存在
+- documents.* 的单值和列表路径真实存在
 - Markdown 与 JSON 的状态/名称一致
 - updated_date 与文件最后修改时间的关系
+- 里程碑日期按时间升序排列（警告）
 - 子模块**索引指针**相对 origin/main 的新鲜度（落后 > 20 提交即失败），
   以及工作区↔索引漂移、指针领先上游（疑似子仓库提交未推送）
 
@@ -16,12 +17,12 @@
 from __future__ import annotations
 
 import json
-import os
 import re
 import subprocess
 import sys
 from collections import defaultdict
-from datetime import date, datetime
+from collections.abc import Iterator
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -118,6 +119,20 @@ def parse_front_matter(path: Path) -> dict:
     return meta
 
 
+def document_references(docs: dict, is_template: bool) -> Iterator[tuple[str, str]]:
+    """展开单值和列表路径，保留字段名和列表下标用于定位。"""
+    for key, value in docs.items():
+        is_list = isinstance(value, list)
+        refs = value if is_list else [value]
+        for index, ref in enumerate(refs):
+            if not isinstance(ref, str) or not ref:
+                continue
+            if is_template and ("YYYYMMDD" in ref or "名称" in ref):
+                continue
+            label = f"{key}[{index}]" if is_list else key
+            yield label, ref
+
+
 def main() -> int:
     registry_files = sorted(REGISTRY.glob("PROJ-*.json"))
     if not registry_files:
@@ -126,7 +141,6 @@ def main() -> int:
 
     id_to_files: dict[str, list[str]] = defaultdict(list)
     name_to_files: dict[str, list[str]] = defaultdict(list)
-    registry: dict[str, dict] = {}
 
     # ---------- 1. 注册表逐项检查 ----------
     for rf in registry_files:
@@ -138,7 +152,6 @@ def main() -> int:
             continue
 
         is_template = rf.name.startswith("PROJ-000")
-        registry[rf.name] = data
 
         # 必填字段
         for field in REQUIRED_FIELDS:
@@ -165,6 +178,7 @@ def main() -> int:
                 fail(f"{rel}: priority=`{data['priority']}` 不在 {sorted(VALID_PRIORITY)} 内")
 
         # 日期格式
+        updated_date = None
         for field in ("created_date", "updated_date"):
             val = str(data.get(field, ""))
             if not val:
@@ -174,34 +188,44 @@ def main() -> int:
                     warn(f"{rel}: {field} 仍是占位符 `{val}`")
                 continue
             try:
-                datetime.strptime(val, "%Y-%m-%d")
+                parsed_date = datetime.strptime(val, "%Y-%m-%d").date()
             except ValueError:
                 fail(f"{rel}: {field}=`{val}` 不是 YYYY-MM-DD 格式")
-
-        # documents 路径存在性
-        docs = data.get("documents") or {}
-        for key, value in docs.items():
-            if not value or not isinstance(value, str):
                 continue
-            if is_template and ("YYYYMMDD" in value or "名称" in value):
-                continue  # 模板中的占位路径不算断链
+            if field == "updated_date":
+                updated_date = parsed_date
+
+        # documents 路径存在性和修改时间（兼容报告目录等引用）
+        docs = data.get("documents") or {}
+        for label, value in document_references(docs, is_template):
             target = ROOT / value
             if not target.exists():
-                fail(f"{rel}: documents.{key} 指向的文件不存在 — {value}")
+                fail(f"{rel}: documents.{label} 指向的文件不存在 — {value}")
+                continue
+            if updated_date is not None:
+                mtime = datetime.fromtimestamp(target.stat().st_mtime).date()
+                if mtime > updated_date:
+                    warn(
+                        f"{rf.name}: documents.{label} 文件最后修改 {mtime} "
+                        f"晚于 updated_date {updated_date} — 注册表未同步"
+                    )
 
         # 里程碑日期顺序
-        milestones = data.get("milestones") or []
-        dates = [m.get("due_date") for m in milestones if m.get("due_date")]
-        try:
-            parsed = [datetime.strptime(d, "%Y-%m-%d").date() for d in dates]
-        except ValueError:
-            parsed = []
-        if parsed and parsed != sorted(parsed):
-            warn(f"{rel}: 里程碑 due_date 非时间升序")
+        dates = []
+        for milestone in data.get("milestones") or []:
+            value = milestone.get("date") or milestone.get("due_date")
+            if not isinstance(value, str):
+                continue
+            try:
+                dates.append(datetime.strptime(value, "%Y-%m-%d").date())
+            except ValueError:
+                continue  # 占位或无法解析的日期不参与排序
+        if dates != sorted(dates):
+            warn(f"{rel}: 里程碑日期非时间升序")
 
         # Markdown / JSON 状态一致性
         proj_path = docs.get("project")
-        if proj_path:
+        if isinstance(proj_path, str) and proj_path:
             mp = ROOT / proj_path
             if mp.exists():
                 fm = parse_front_matter(mp)
@@ -233,29 +257,7 @@ def main() -> int:
         if len(files) > 1:
             fail(f"项目 ID 重复 `{pid}`: {', '.join(files)}")
 
-    # ---------- 3. updated_date 与文件 mtime ----------
-    for rf_name, data in registry.items():
-        upd = data.get("updated_date")
-        if not upd or upd in ("YYYY-MM-DD",):
-            continue
-        try:
-            d = datetime.strptime(upd, "%Y-%m-%d").date()
-        except ValueError:
-            continue
-        for key, value in (data.get("documents") or {}).items():
-            if not value or not isinstance(value, str):
-                continue
-            target = ROOT / value
-            if not target.exists():
-                continue
-            mtime = datetime.fromtimestamp(target.stat().st_mtime).date()
-            if mtime > d:
-                warn(
-                    f"{rf_name}: documents.{key} 文件最后修改 {mtime} "
-                    f"晚于 updated_date {d} — 注册表未同步"
-                )
-
-    # ---------- 4. projects/active 目录卫生 ----------
+    # ---------- 3. projects/active 目录卫生 ----------
     active_dir = ROOT / "projects" / "active"
     for md in sorted(active_dir.glob("*.md")):
         if md.name == "README.md":
@@ -263,7 +265,7 @@ def main() -> int:
         if re.search(r"(报告|report)", md.name):
             warn(f"projects/active/{md.name}: 报告类文档应归档到 execution/reports/")
 
-    # ---------- 5. 子模块指针新鲜度 ----------
+    # ---------- 4. 子模块指针新鲜度 ----------
     # 子模块指针长期不更新，会让"仓库里看到的代码"与上游实际代码相差数月，
     # 任何基于仓库现状的分析结论都因此失真（2026-10-20 审计的关键发现）。
     gitmodules = ROOT / ".gitmodules"
