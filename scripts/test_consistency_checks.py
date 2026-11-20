@@ -67,7 +67,7 @@ class KnowledgeBaseCheckTests(CheckerFixture):
         self.document(second, day=2)
         result = self.check_registry(documents={"proposal": [first, second]})
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("documents.proposal[1] 文件最后修改 2026-02-02", result.stdout)
+        self.assertIn("documents.proposal[1] 最后修改 2026-02-02", result.stdout)
         self.assertNotIn("documents.proposal[0]", result.stdout)
 
     def test_optional_refs_and_report_directory_pass(self):
@@ -119,8 +119,65 @@ class KnowledgeBaseCheckTests(CheckerFixture):
                 self.assertEqual("里程碑日期非时间升序" in result.stdout, should_warn)
 
 
+class DocumentChangeDateTests(CheckerFixture):
+    """「文档最后修改时间」用 git 提交日期，而不是文件系统 mtime。
+
+    CI 全新 checkout 会把每个文件的 mtime 刷成当天，拿 mtime 比较必然全量
+    误报「注册表未同步」。
+    """
+
+    def setUp(self):
+        super().setUp()
+        self.write_file(
+            "projects/registry/PROJ-019-fixture.json",
+            json.dumps({
+                "id": "PROJ-019",
+                "name": "Fixture",
+                "status": "active",
+                "priority": "medium",
+                "created_date": "2026-01-01",
+                "updated_date": "2026-02-01",
+                "owner": "Fixture owner",
+                "documents": {"project": "projects/active/fixture.md"},
+            }),
+        )
+        self.document = self.write_file("projects/active/fixture.md", "# Fixture\n")
+        script = self.scripts / "check-kb-consistency.py"
+        shutil.copyfile(SCRIPTS / script.name, script)
+        self.git("init", "-q", "-b", "main", str(self.root))
+        self.git("add", "-A")
+        self.git("-c", "user.email=t@t", "-c", "user.name=t", "commit", "-qm", "init")
+
+    def git(self, *args):
+        return subprocess.run(
+            ["git", *args], cwd=str(self.root), capture_output=True, text=True, check=True,
+            env={
+                **os.environ,
+                "GIT_AUTHOR_DATE": "2026-02-05T10:00:00",
+                "GIT_COMMITTER_DATE": "2026-02-05T10:00:00",
+            },
+        )
+
+    def run_check(self):
+        return subprocess.run(
+            [sys.executable, str(self.scripts / "check-kb-consistency.py")],
+            capture_output=True, text=True,
+        )
+
+    def test_commit_date_is_used_instead_of_checkout_mtime(self):
+        # 把 mtime 刷成「今天」，模拟 CI 全新 checkout 的效果
+        now = datetime.now().timestamp()
+        os.utime(self.document, (now, now))
+        result = self.run_check()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("最后修改 2026-02-05 晚于 updated_date 2026-02-01", result.stdout)
+
+    def test_committed_after_updated_date_is_reported(self):
+        result = self.run_check()
+        self.assertIn("最后修改 2026-02-05 晚于 updated_date 2026-02-01", result.stdout)
+
+
 class SubmoduleCheckTests(CheckerFixture):
-    """私有子模块跳过清单的行为（CI 里 GITHUB_TOKEN 克隆不到私有仓库）。"""
 
     def setUp(self):
         super().setUp()

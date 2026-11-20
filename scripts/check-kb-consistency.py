@@ -25,7 +25,7 @@ import subprocess
 import sys
 from collections import defaultdict
 from collections.abc import Iterator
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -77,6 +77,29 @@ TABLE_KEY_MAP = {
     "创建时间": "创建时间",
     "项目负责人": "负责人",
 }
+
+
+def document_change_date(target: Path) -> date | None:
+    """文档最后一次「真正被修改」的日期。
+
+    优先用 git 提交日期：CI 全新 checkout 会把每个文件的 mtime 都刷成当天，
+    拿 mtime 比较必然全部报「注册表未同步」（2026-11-20 根仓 CI 里 27 条
+    警告有 26 条是这个假阳性）。文件没被 git 跟踪时退回 mtime。
+    """
+    try:
+        rel = target.relative_to(ROOT)
+    except ValueError:
+        rel = target
+    out = git_output(["log", "-1", "--format=%cs", "--", str(rel)], ROOT)
+    if out:
+        try:
+            return datetime.strptime(out.strip(), "%Y-%m-%d").date()
+        except ValueError:
+            pass
+    try:
+        return datetime.fromtimestamp(target.stat().st_mtime).date()
+    except OSError:
+        return None
 
 
 def load_private_submodules() -> dict[str, str]:
@@ -227,10 +250,10 @@ def main() -> int:
                 fail(f"{rel}: documents.{label} 指向的文件不存在 — {value}")
                 continue
             if updated_date is not None:
-                mtime = datetime.fromtimestamp(target.stat().st_mtime).date()
-                if mtime > updated_date:
+                changed = document_change_date(target)
+                if changed and changed > updated_date:
                     warn(
-                        f"{rf.name}: documents.{label} 文件最后修改 {mtime} "
+                        f"{rf.name}: documents.{label} 最后修改 {changed} "
                         f"晚于 updated_date {updated_date} — 注册表未同步"
                     )
 
