@@ -53,8 +53,9 @@
     {
       "name": "三个仓库托管 CI 首轮红灯定位与修复（clippy 新 lint / sqlx 版本 / 私有子模块）",
       "date": "2026-11-20",
-      "status": "in_progress",
-      "note": "成因已逐项定位：hamr-api 文档列表缩进触发 clippy 1.100 新 lint、hamr-app sqlx 0.7.4 与 Rust 1.100 的 never 类型推断不兼容、根仓 checkout 因 private 子模块失败。本地已修复并用 CI 同款工具链验证，远端复跑结果以 GitHub Actions 为准"
+      "status": "completed",
+      "completion_date": "2026-11-20",
+      "note": "成因已逐项定位：hamr-api 文档列表缩进触发 clippy 1.100 新 lint 与 rustfmt 漂移、hamr-app sqlx 0.7.4 与 Rust 1.100 的 never 类型推断不兼容、根仓 checkout 因 private 子模块失败。三项均已修复，复跑结果：hamr-api 95b4f3a/29f443d 绿灯、hamr-app 2972786 绿灯（含端到端脚本）、根仓 886199b/7b62793 绿灯。遗留：repos/hamr-mood-calender 为 private，其指针新鲜度在 CI 中不校验，需 HAMR_CROSS_REPO_TOKEN 才能恢复"
     },
     {
       "name": "CI 门禁铺开到剩余仓库（status / website / help / developer / deploy）",
