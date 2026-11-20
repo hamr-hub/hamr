@@ -31,10 +31,18 @@ jobs:
     name: knowledge base consistency
     runs-on: ubuntu-latest
     steps:
+      # 不用 `submodules: recursive`：私有子模块（repos/hamr-mood-calender）
+      # 用 GITHUB_TOKEN 克隆不到，会让整个 job 在 checkout 阶段就失败。
+      # 改由 scripts/ci-init-submodules.sh 显式初始化并跳过私有路径，
+      # 跳过清单与原因见 scripts/private-submodules.txt。
       - uses: actions/checkout@v4
         with:
-          submodules: recursive
           fetch-depth: 0
+
+      - name: Init submodules (private ones skipped)
+        env:
+          HAMR_CROSS_REPO_TOKEN: ${{ secrets.HAMR_CROSS_REPO_TOKEN }}
+        run: bash scripts/ci-init-submodules.sh
 
       - uses: actions/setup-python@v5
         with:

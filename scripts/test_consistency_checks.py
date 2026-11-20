@@ -119,6 +119,60 @@ class KnowledgeBaseCheckTests(CheckerFixture):
                 self.assertEqual("里程碑日期非时间升序" in result.stdout, should_warn)
 
 
+class SubmoduleCheckTests(CheckerFixture):
+    """私有子模块跳过清单的行为（CI 里 GITHUB_TOKEN 克隆不到私有仓库）。"""
+
+    def setUp(self):
+        super().setUp()
+        self.write_file(
+            "projects/registry/PROJ-019-fixture.json",
+            json.dumps({
+                "id": "PROJ-019",
+                "name": "Fixture",
+                "status": "active",
+                "priority": "medium",
+                "created_date": "2026-01-01",
+                "updated_date": "2026-02-01",
+                "owner": "Fixture owner",
+            }),
+        )
+        script = self.scripts / "check-kb-consistency.py"
+        shutil.copyfile(SCRIPTS / script.name, script)
+
+    def write_gitmodules(self, path="repos/hamr-demo"):
+        self.write_file(
+            ".gitmodules",
+            f'[submodule "hamr-demo"]\n\tpath = {path}\n'
+            f"\turl = https://example.invalid/hamr-demo.git\n",
+        )
+
+    def run_check(self):
+        return subprocess.run(
+            [sys.executable, str(self.scripts / "check-kb-consistency.py")],
+            capture_output=True, text=True,
+        )
+
+    def test_uninitialized_submodule_fails(self):
+        self.write_gitmodules()
+        result = self.run_check()
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("子模块 repos/hamr-demo 未初始化（缺少 .git）", result.stdout)
+
+    def test_private_submodule_warns_instead_of_failing(self):
+        self.write_gitmodules()
+        self.write_file("scripts/private-submodules.txt", "repos/hamr-demo # 私有仓库\n")
+        result = self.run_check()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("已按 scripts/private-submodules.txt 跳过指针新鲜度检查", result.stdout)
+
+    def test_stale_exclusion_entry_is_reported(self):
+        self.write_gitmodules()
+        self.write_file("scripts/private-submodules.txt", "repos/hamr-gone # 私有仓库\n")
+        result = self.run_check()
+        self.assertIn("清单已过期", result.stdout)
+        self.assertIn("子模块 repos/hamr-demo 未初始化（缺少 .git）", result.stdout)
+
+
 class PortCheckTests(CheckerFixture):
     def setUp(self):
         super().setUp()

@@ -51,6 +51,12 @@
       "completion_date": "2026-10-20"
     },
     {
+      "name": "三个仓库托管 CI 首轮红灯定位与修复（clippy 新 lint / sqlx 版本 / 私有子模块）",
+      "date": "2026-11-20",
+      "status": "in_progress",
+      "note": "成因已逐项定位：hamr-api 文档列表缩进触发 clippy 1.100 新 lint、hamr-app sqlx 0.7.4 与 Rust 1.100 的 never 类型推断不兼容、根仓 checkout 因 private 子模块失败。本地已修复并用 CI 同款工具链验证，远端复跑结果以 GitHub Actions 为准"
+    },
+    {
       "name": "CI 门禁铺开到剩余仓库（status / website / help / developer / deploy）",
       "date": "2026-11-30",
       "status": "completed",

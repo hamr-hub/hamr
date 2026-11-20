@@ -10,6 +10,9 @@
 - 里程碑日期按时间升序排列（警告）
 - 子模块**索引指针**相对 origin/main 的新鲜度（落后 > 20 提交即失败），
   以及工作区↔索引漂移、指针领先上游（疑似子仓库提交未推送）
+- 私有子模块（见 scripts/private-submodules.txt）的「未初始化」只报警告 ——
+  CI 的 GITHUB_TOKEN 读不到私有仓库，代价是该子模块的指针新鲜度在 CI 中
+  不被校验，只在本地克隆后校验。
 
 用法: python3 scripts/check-kb-consistency.py
 退出码: 0 = 全部通过, 1 = 存在 FAIL
@@ -27,6 +30,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY = ROOT / "projects" / "registry"
+PRIVATE_SUBMODULE_LIST = ROOT / "scripts" / "private-submodules.txt"
 
 REQUIRED_FIELDS = ("id", "name", "status", "priority", "created_date", "updated_date", "owner")
 VALID_STATUS = {"active", "completed", "cancelled", "paused"}
@@ -73,6 +77,26 @@ TABLE_KEY_MAP = {
     "创建时间": "创建时间",
     "项目负责人": "负责人",
 }
+
+
+def load_private_submodules() -> dict[str, str]:
+    """读取私有子模块跳过清单（路径 → 跳过原因）。
+
+    私有仓库用 CI 的 GITHUB_TOKEN 克隆不到，清单让检查器把「未初始化」
+    从错误降级为警告，并说明代价：该子模块的指针新鲜度在 CI 中不被校验。
+    """
+    mapping: dict[str, str] = {}
+    if not PRIVATE_SUBMODULE_LIST.exists():
+        return mapping
+    for line in PRIVATE_SUBMODULE_LIST.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        path, _, reason = stripped.partition("#")
+        path = path.strip()
+        if path:
+            mapping[path] = reason.strip()
+    return mapping
 
 
 def parse_front_matter(path: Path) -> dict:
@@ -273,9 +297,23 @@ def main() -> int:
         submodules = gitmodules.read_text(encoding="utf-8")
         paths = re.findall(r'path\s*=\s*(\S+)', submodules)
         max_lag = 20  # 允许的落后提交数
+        private_submodules = load_private_submodules()
+        for listed in private_submodules:
+            if listed not in paths:
+                warn(
+                    f"scripts/private-submodules.txt 里的 `{listed}` 不在 .gitmodules 中 "
+                    f"—— 清单已过期，请删除该行"
+                )
         for rel in paths:
             sm = ROOT / rel
             if not (sm / ".git").exists():
+                reason = private_submodules.get(rel)
+                if reason:
+                    warn(
+                        f"子模块 {rel} 未初始化（{reason}）—— 已按 "
+                        f"scripts/private-submodules.txt 跳过指针新鲜度检查"
+                    )
+                    continue
                 fail(f"子模块 {rel} 未初始化（缺少 .git）")
                 continue
 

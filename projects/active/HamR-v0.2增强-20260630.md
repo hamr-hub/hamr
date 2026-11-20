@@ -62,6 +62,18 @@
 - 根仓工作流校验锁定子模块组合的端口契约；若缺少任一必需声明，直接失败。本地通过 9 条回归测试和 18 项端口检查，托管 CI 尚未验证。
 - 后续按 [Sprint 01](../../execution/sprints/sprint-01-20261120.md) 推进跨服务联调、恢复演练与状态页真实数据接入；不把静态仓库资料当作生产拓扑证据。
 
+### 2026-11-20：托管 CI 首轮红灯的三类成因
+
+推送后的首次托管 CI 全部红灯，成因互不相同，已逐项定位并修复：
+
+| 仓库 | 现象 | 成因 | 处理 |
+|------|------|------|------|
+| hamr-api | `cargo clippy` 7 处 `doc list item overindented` | clippy 1.100 新增 `doc_overindented_list_items`，`src/metrics.rs` 模块文档的列表续行缩进过多 | 列表标记改顶格 `- `、续行对齐内容列，`cargo +1.100.0 clippy --all-targets -- -D warnings` 通过 |
+| hamr-app | `cargo check` 报 `the trait bound !: Decode<'_> is not satisfied` | sqlx 0.7.4 与 Rust 1.100 的 never 类型推断不再兼容（rust-lang/rust#148922） | sqlx 升到 0.8.6，Rust 1.100 下 check / 单测 / 端到端全部通过 |
+| 根仓 | `actions/checkout` 阶段即失败：`fatal: repository '.../hamr-mood-calender.git/' not found` | `hamr-mood-calender` 是 private 仓库，`submodules: recursive` 用的 GITHUB_TOKEN 无权克隆 | 取消 `submodules: recursive`，改由 `scripts/ci-init-submodules.sh` 显式初始化并补齐 `origin/main` 引用；私有路径按 `scripts/private-submodules.txt` 跳过并降级为警告 |
+
+**遗留代价（写进文档，不隐藏）**：`repos/hamr-mood-calender` 的指针新鲜度在 CI 中不被校验，只在本地克隆后由同一检查器校验。恢复办法是给根仓配置能读私有仓库的 Actions 密钥 `HAMR_CROSS_REPO_TOKEN`（PAT，scope=repo），随后从跳过清单中删除该行即可。
+
 
 2026-06-30 `/loop 5h` 第一轮触发，6 个 deep-research agent 并行审计了 14 个 v0.1 子项目 + 跨切基础设施。审计报告位于 `.iter-skill/runs/2026-06-30/`：
 

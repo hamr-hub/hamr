@@ -1,0 +1,20 @@
+# 私有子模块清单
+#
+# 背景：下面这些仓库在 GitHub 上是 private，Actions 的 GITHUB_TOKEN 只对
+# 当前仓库有效，读不到它们。`actions/checkout` 的 `submodules: recursive`
+# 会在克隆阶段直接失败，把整个知识库门禁一起拖垮（2026-11-20 实测：
+# `fatal: repository 'https://github.com/hamr-hub/hamr-mood-calender.git/' not found`）。
+#
+# 处理方式：
+#   - scripts/ci-init-submodules.sh 按本清单跳过这些路径，其余子模块照常初始化；
+#   - scripts/check-kb-consistency.py 对这些路径只发警告，不再判定「未初始化」为错误。
+#
+# 代价（必须写清楚，不能默认忽略）：这些子模块的**指针新鲜度在 CI 中不被校验**，
+# 只能在本地克隆后由同一份检查器校验。其余子模块在 CI 中照常校验。
+#
+# 格式：<子模块路径> # <跳过原因>
+#
+# 恢复完整校验的办法：给仓库加一个能读私有仓库的 Actions 密钥
+# `HAMR_CROSS_REPO_TOKEN`（PAT，scope=repo）。ci-init-submodules.sh 会优先用它
+# 克隆清单里的子模块；克隆成功后即可把对应行从本清单删除，CI 立刻恢复完整校验。
+repos/hamr-mood-calender # 仓库为 private，GITHUB_TOKEN 无权读取
