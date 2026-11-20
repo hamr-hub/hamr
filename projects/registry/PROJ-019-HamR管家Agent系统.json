@@ -15,12 +15,19 @@
     "工具调用",
     "记忆",
     "主动提醒",
-    "记忆分层"
+    "记忆分层",
+    "家庭Wiki",
+    "场景包",
+    "审批写操作",
+    "模型体检"
   ],
   "documents": {
     "project": "projects/active/HamR管家Agent系统-20261117.md",
     "roadmap": "planning/roadmaps/HamR-Agent系统-roadmap-2026Q4.md",
-    "proposal": "planning/proposals/hamr-agent-runtime-architecture-20261117.md",
+    "proposal": [
+      "planning/proposals/hamr-agent-runtime-architecture-20261117.md",
+      "planning/proposals/家庭版Agent架构设计-20261120.md"
+    ],
     "review": null,
     "sprint": [],
     "report": [],
@@ -58,6 +65,12 @@
       "completion_date": "2026-11-20"
     },
     {
+      "name": "家庭知识层与行动层（Wiki / 场景包 / 审批写操作 / 模型体检）",
+      "date": "2026-11-20",
+      "status": "completed",
+      "completion_date": "2026-11-20"
+    },
+    {
       "name": "本地模型端到端联调",
       "date": "2026-12-05",
       "status": "in_progress",
@@ -82,5 +95,5 @@
       "completion_date": null
     }
   ],
-  "description": "HamR 管家的 Agent 大脑层，实现在 hamr-app 现有 Rust 后端内（src/agent/ 模块），不新建仓库。本地优先、模型可插拔：单一 LlmProvider trait，本地 Ollama 与云端 OpenAI 兼容 API 共用协议；出网数据默认脱敏（成员姓名一致性替换 + 电话/邮箱/证件号/卡号屏蔽）；工具集只读五维数据，family_id 由服务端注入而非模型参数；具备会话记忆与分层长期记忆（fact/preference/rule，重复确认自动升级为家规）。2026-11-20 新增主动提醒内核：三态决策（告知/跟进/沉默）+ 闸门（免打扰时段、每日上限、紧急旁路、去重），规则驱动扫描五维数据，全程不调用模型。未启用时端点返回 503。幸福指数量化仍归 JiaBu，Agent 通过 jiabu_score 工具调用。"
+  "description": "HamR 管家的 Agent 大脑层，实现在 hamr-app 现有 Rust 后端内（src/agent/ 模块），不新建仓库。本地优先、模型可插拔：单一 LlmProvider trait，本地 Ollama 与云端 OpenAI 兼容 API 共用协议；出网数据默认脱敏（成员姓名一致性替换 + 电话/邮箱/证件号/卡号屏蔽）；工具集只读五维数据，family_id 由服务端注入而非模型参数；具备会话记忆与分层长期记忆（fact/preference/rule，重复确认自动升级为家规）。2026-11-20 新增主动提醒内核：三态决策（告知/跟进/沉默）+ 闸门（免打扰时段、每日上限、紧急旁路、去重），规则驱动扫描五维数据，全程不调用模型。同日落地家庭版 Agent 架构：家庭 Wiki（五维数据的确定性派生物，模型只读）、场景包（版本化不可变，只引导不授权）、审批写操作（模型只能提议，确认走 HTTP 端点，工具表内无 confirm）、模型体检（0-3 分判定工具调用能力）与成员维度会话。未启用时端点返回 503。幸福指数量化仍归 JiaBu，Agent 通过 jiabu_score 工具调用。"
 }
